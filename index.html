@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nima Poorali — Frontend architect, design systems</title>
+<meta name="description" content="Frontend architect and design systems consultant. Web Components across Angular and React, in Nx monorepos.">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://poorali.dev/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://poorali.dev/">
+<meta property="og:site_name" content="Nima Poorali">
+<meta property="og:title" content="Nima Poorali — Frontend architect, design systems">
+<meta property="og:description" content="Eleven years drawn as one unbroken line. One revolution per year.">
+<meta property="og:image" content="https://poorali.dev/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A spiral of eleven concentric hand-drawn rings on near-black, one revolution per year since 2015, with the current year picked out in orange. Overlaid: I optimise for year three.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nima Poorali — Frontend architect, design systems">
+<meta name="twitter:description" content="Eleven years drawn as one unbroken line. One revolution per year.">
+<meta name="twitter:image" content="https://poorali.dev/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D10'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23FF5F3D'/%3E%3C/svg%3E">
+
+<style>
+  :root {
+    --bg:     #0B0D10;
+    --name:   #E8EAED;
+    --slogan: #8A919D;
+    --email:  #79808B;
+    --sig:    #575E69;
+    --accent: 255,95,61;
+    --hair:   rgba(201,207,216,0.10);
+    --mono:   ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans:   "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  body {
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+    color: var(--slogan);
+    cursor: crosshair;
+  }
+
+  #stage { position: fixed; inset: 0; z-index: 0; }
+  #stage canvas { display: block; width: 100%; height: 100%; }
+
+  #scrim {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(46% 30% at 50% 45%, rgba(11,13,16,0.92) 0%, rgba(11,13,16,0.66) 52%, rgba(11,13,16,0) 100%),
+      linear-gradient(to bottom, rgba(11,13,16,0.78) 0%, rgba(11,13,16,0) 16%, rgba(11,13,16,0) 66%, rgba(11,13,16,0.88) 96%);
+  }
+
+  #page {
+    position: fixed; inset: 0; z-index: 2;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(18px, 3.2vw, 44px);
+    gap: clamp(14px, 2vw, 26px);
+    pointer-events: none;
+  }
+  #page a { pointer-events: auto; }
+
+  header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid var(--hair);
+    padding-top: clamp(12px, 1.6vw, 18px);
+  }
+  .id-name {
+    font-family: var(--sans); font-weight: 500;
+    font-size: clamp(15px, 1.35vw, 20px);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--name); line-height: 1;
+  }
+  .id-role {
+    margin-top: 9px;
+    font-size: clamp(10px, 0.78vw, 12px);
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--email);
+  }
+  .id-mail {
+    font-size: clamp(10px, 0.82vw, 13px);
+    letter-spacing: 0.07em; color: var(--slogan);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,207,216,0.16);
+    padding-bottom: 3px; white-space: nowrap;
+    transition: color .25s, border-color .25s;
+  }
+  .id-mail:hover { color: rgb(var(--accent)); border-color: rgba(255,95,61,0.5); }
+
+  main {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .slogan {
+    font-family: var(--sans); font-weight: 300;
+    font-size: clamp(26px, 5.1vw, 68px);
+    letter-spacing: -0.015em; line-height: 1.06;
+    color: var(--name); margin: 0;
+  }
+  .sub {
+    margin: clamp(16px, 2vw, 26px) 0 0;
+    font-size: min(12.5px, 2.55vw);
+    letter-spacing: 0.11em; text-transform: uppercase;
+    color: #A2AAB5; line-height: 2.15;
+  }
+  .sub span { display: block; white-space: nowrap; }
+
+  footer {
+    border-top: 1px solid var(--hair);
+    padding-top: clamp(12px, 1.6vw, 18px);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: clamp(14px, 3vw, 48px);
+    font-size: clamp(9.5px, 0.72vw, 11.5px);
+    letter-spacing: 0.1em;
+  }
+  .lbl {
+    display: block; margin-bottom: 9px;
+    color: var(--sig);
+    text-transform: uppercase; letter-spacing: 0.18em;
+  }
+
+  /* the one line of text that changes — what was happening at the ring
+     under the cursor */
+  #caption { color: var(--email); line-height: 1.95; min-height: 2.6em; }
+  #caption .yr { color: rgb(var(--accent)); }
+  #caption .who { color: var(--name); }
+  #caption .hint { color: var(--sig); }
+
+  .sig {
+    text-align: right; color: var(--sig);
+    line-height: 1.95; white-space: nowrap;
+  }
+  .sig b { color: var(--email); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 700px) {
+    footer { grid-template-columns: 1fr; gap: 14px; }
+    .sig { text-align: left; white-space: normal; }
+    header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .sub { font-size: 10px; letter-spacing: 0.09em; }
+    .sub span { white-space: normal; max-width: 32ch; margin: 0 auto; }
+    body { cursor: default; }
+  }
+</style>
+</head>
+
+<body>
+
+<div id="stage"></div>
+<div id="scrim"></div>
+
+<div id="page">
+
+  <header>
+    <div>
+      <div class="id-name">Nima Poorali</div>
+      <div class="id-role">Frontend architect &middot; design systems</div>
+    </div>
+    <a class="id-mail" href="mailto:hi@poorali.dev">hi@poorali.dev</a>
+  </header>
+
+  <main>
+    <h1 class="slogan">I optimise for year three</h1>
+    <p class="sub">
+      <span>Design systems that outlive their host framework</span>
+      <span>Angular &amp; React &middot; Web Components &middot; Nx monorepos</span>
+    </p>
+  </main>
+
+  <footer>
+    <div>
+      <span class="lbl" id="span-lbl">One revolution per year</span>
+      <div id="caption"><span class="hint">Move across the rings.</span></div>
+    </div>
+    <div class="sig">
+      <span class="lbl">The drawing</span>
+      <div><b id="s-paths">1</b> path &middot; <b id="s-lifts">0</b> lifts &middot; <b id="s-segs">0</b> segments</div>
+      <div><b id="s-days">0</b> days &middot; no <span style="font-variant-numeric:tabular-nums">Math.random()</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var BG      = '#0B0D10';
+  var LINE    = '201,207,216';
+  var ACCENT  = '255,95,61';
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ==================================================================
+     THE ONLY INPUT IS TIME
+     Nothing here is random. Every value below is a function of a date,
+     which is why the drawing is the same for everyone and changes only
+     because the world moves on. It is one day longer tomorrow.
+     ================================================================== */
+
+  var DAY   = 86400000;
+  var BIRTH = Date.UTC(2015, 6, 1);        // Jul 2015 — the first line of the career
+  var NOW   = Date.now();
+  var AHEAD = 3;                            // year three, drawn but not yet lived
+
+  function ym(y, m) { return Date.UTC(y, m - 1, 1); }
+
+  /* Overlaps are the interesting part: where two engagements run at once
+     their frequencies beat against each other and the rings interfere. */
+  var WORK = [
+    { at: 'Dariche Zehn',   role: 'Frontend Developer',            from: ym(2015, 7),  to: ym(2017, 9),  w: 0.55, f: 3 },
+    { at: 'Karaweb',        role: 'Full Stack Developer',          from: ym(2017, 9),  to: ym(2021, 6),  w: 0.78, f: 5 },
+    { at: 'Upwork',         role: 'Freelance · 100% success',      from: ym(2021, 1),  to: ym(2025, 6),  w: 0.62, f: 9 },
+    { at: 'QuadVentures',   role: 'Lead Web Developer',            from: ym(2022, 1),  to: ym(2023, 12), w: 0.98, f: 4 },
+    { at: 'Aligned Voyage', role: 'Co-founder',                    from: ym(2023, 12), to: ym(2025, 7),  w: 1.00, f: 6 },
+    { at: 'German B2B SaaS', role: 'Frontend Consultant · design systems', from: ym(2025, 7), to: null, w: 1.00, f: 2 }
+  ];
+
+  var endOf = function (e) { return e.to === null ? NOW : e.to; };
+
+  // every boundary leaves a scar in the ring, the way a hard winter does
+  var SCARS = [];
+  WORK.forEach(function (e) { SCARS.push(e.from); SCARS.push(endOf(e)); });
+
+  var SPAN_MS   = (NOW - BIRTH) + AHEAD * 365.25 * DAY;
+  var LIVED_MS  = NOW - BIRTH;
+  var TOTAL_YRS = SPAN_MS / (365.25 * DAY);
+  var T_NOW     = LIVED_MS / SPAN_MS;                 // where the present sits, 0..1
+  var DAYS      = Math.round(LIVED_MS / DAY);
+
+  /* deterministic grain — a hash of the day index, never Math.random */
+  function grain(n) {
+    n = Math.imul(n ^ (n >>> 15), 0x2C1B3C6D);
+    n = Math.imul(n ^ (n >>> 12), 0x297A2D39);
+    return ((n ^ (n >>> 15)) >>> 0) / 4294967296;
+  }
+
+  function activeAt(ms) {
+    return WORK.filter(function (e) { return ms >= e.from && ms <= endOf(e); });
+  }
+
+  /* ==================================================================
+     THE LINE
+     ================================================================== */
+  var stage  = document.getElementById('stage');
+  var canvas = document.createElement('canvas');
+  var ctx    = canvas.getContext('2d');
+  stage.appendChild(canvas);
+
+  var W = 1, H = 1, DPR = 1;
+  var CX = 0, CY = 0, RAD = 1, ASPECT = 1;
+  var R0 = 0.11, R1 = 1.10;                 // inner core -> just past the frame
+  var pts = null, SEGS = 0;
+
+  function build() {
+    var n = Math.max(2600, Math.round(TOTAL_YRS * 360 * 1.7));
+    var out = new Float32Array(n * 2);
+    var gap = (R1 - R0) / TOTAL_YRS;        // one ring
+
+    for (var i = 0; i < n; i++) {
+      var t = i / (n - 1);
+      var ms = BIRTH + t * SPAN_MS;
+      var th = -Math.PI / 2 + t * TOTAL_YRS * Math.PI * 2;
+
+      // what was happening, and how loudly
+      var m = 0, live = activeAt(ms);
+      for (var k = 0; k < live.length; k++) {
+        m += live[k].w * Math.sin(th * live[k].f + live[k].from / DAY);
+      }
+      if (live.length > 1) m *= 0.72;       // two at once reads as beating, not shouting
+
+      // scars at every transition
+      for (var s = 0; s < SCARS.length; s++) {
+        var d = Math.abs(ms - SCARS[s]) / DAY;
+        if (d < 30) m += 2.0 * (1 - d / 30);
+      }
+
+      // wood grain, and a future that is projected rather than known
+      m += (grain(Math.round(ms / DAY)) - 0.5) * 0.55;
+      if (t > T_NOW) m *= Math.max(0, 1 - (t - T_NOW) / (1 - T_NOW) * 0.85);
+
+      var r = (R0 + (R1 - R0) * t + m * gap * 0.30) * RAD;
+      out[i * 2]     = CX + Math.cos(th) * r * ASPECT;
+      out[i * 2 + 1] = CY + Math.sin(th) * r;
+    }
+
+    pts = out;
+    SEGS = n - 1;
+  }
+
+  /* One beginPath, one moveTo, N lineTo, one stroke. The colour changes
+     along the line via a radial gradient rather than by starting a new
+     path — which is the only reason "1 path / 0 lifts" stays true. */
+  var lifts = 0;
+
+  function strokeUpTo(count) {
+    var g = ctx.createRadialGradient(CX, CY, R0 * RAD, CX, CY, R1 * RAD);
+
+    // Gradient position and elapsed time are the same number here, because
+    // radius grows linearly with t. So one year is exactly 1/TOTAL_YRS wide,
+    // and the accent has to span a whole revolution — any narrower and the
+    // ring's own wobble carries it in and out of the band.
+    var yr = 1 / TOTAL_YRS, last = -1;
+    function stop(p, c) {
+      p = Math.max(0, Math.min(1, p));
+      if (p <= last) p = Math.min(1, last + 0.0005);
+      last = p;
+      g.addColorStop(p, c);
+    }
+
+    stop(0,                  'rgba(' + LINE + ',0.34)');   // 2015, long ago and quiet
+    stop(0.34,               'rgba(' + LINE + ',0.52)');
+    stop(T_NOW - yr,         'rgba(' + LINE + ',0.76)');
+    stop(T_NOW - yr * 0.55,  'rgba(' + ACCENT + ',0.55)'); // the current year lights up
+    stop(T_NOW - 0.004,      'rgba(' + ACCENT + ',0.95)');
+    stop(T_NOW + 0.006,      'rgba(' + LINE + ',0.34)');   // drawn, not yet lived
+    stop(1,                  'rgba(' + LINE + ',0.12)');
+
+    ctx.strokeStyle = g;
+    ctx.lineWidth = Math.max(1, DPR * 1.15);
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+
+    var moves = 0;
+    ctx.beginPath();
+    ctx.moveTo(pts[0], pts[1]); moves++;
+    for (var i = 1; i < count; i++) ctx.lineTo(pts[i * 2], pts[i * 2 + 1]);
+    ctx.stroke();
+
+    // a lift is a moveTo that isn't the initial placement of the pen
+    lifts = moves - 1;
+  }
+
+  /* ==================================================================
+     HOVER — the rings are the CV
+     ================================================================== */
+  var hoverT = -1;
+
+  function markNow() {
+    var i = Math.round(T_NOW * SEGS);
+    var x = pts[i * 2], y = pts[i * 2 + 1];
+    var pulse = REDUCED ? 0.6 : 0.45 + 0.25 * Math.sin(Date.now() / 620);
+    ctx.fillStyle = 'rgba(' + ACCENT + ',' + pulse.toFixed(3) + ')';
+    ctx.beginPath();
+    ctx.arc(x, y, Math.max(2.4, DPR * 2.6), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function markHover() {
+    if (hoverT < 0) return;
+    var i = Math.round(hoverT * SEGS);
+    var x = pts[i * 2], y = pts[i * 2 + 1];
+    ctx.strokeStyle = 'rgba(' + LINE + ',0.55)';
+    ctx.lineWidth = Math.max(1, DPR);
+    ctx.beginPath();
+    ctx.arc(x, y, Math.max(5, DPR * 6), 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  var capEl = document.getElementById('caption');
+  var MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  function caption(t) {
+    if (t < 0) { capEl.innerHTML = '<span class="hint">Move across the rings.</span>'; return; }
+    var ms = BIRTH + t * SPAN_MS;
+    var d  = new Date(ms);
+    var yr = d.getUTCFullYear(), mo = MONTH[d.getUTCMonth()];
+
+    if (ms > NOW) {
+      var into = ((ms - NOW) / (365.25 * DAY));
+      capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span> &middot; ' +
+        '<span class="hint">year ' + (into < 1 ? 'one' : into < 2 ? 'two' : 'three') +
+        ' from here &mdash; drawn, not yet lived</span>';
+      return;
+    }
+
+    var live = activeAt(ms);
+    if (!live.length) { capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span>'; return; }
+
+    capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span> &middot; ' +
+      live.map(function (e) {
+        return '<span class="who">' + e.at + '</span> <span class="hint">' + e.role + '</span>';
+      }).join(' &nbsp;+&nbsp; ');
+  }
+
+  function onMove(e) {
+    var dx = (e.clientX * DPR - CX) / ASPECT, dy = e.clientY * DPR - CY;
+    var rn = Math.sqrt(dx * dx + dy * dy) / RAD;
+    var t  = (rn - R0) / (R1 - R0);
+    hoverT = (t < 0 || t > 1) ? -1 : t;
+    caption(hoverT);
+  }
+
+  /* ==================================================================
+     FRAME
+     ================================================================== */
+  var progress = 0, start = 0;
+
+  function frame(ts) {
+    if (!start) start = ts;
+    progress = REDUCED ? 1 : Math.min(1, (ts - start) / 7200);
+    var e = 1 - Math.pow(1 - progress, 2.4);          // ease out
+
+    ctx.fillStyle = BG;
+    ctx.fillRect(0, 0, W, H);
+
+    var count = Math.max(2, Math.round(e * SEGS));
+    strokeUpTo(count);
+    if (progress >= 1) { markNow(); markHover(); }
+
+    sSegs.textContent = fmt.format(count - 1);
+    sLifts.textContent = String(lifts);
+
+    requestAnimationFrame(frame);
+  }
+
+  /* ==================================================================
+     SIZE + BOOT
+     ================================================================== */
+  var fmt    = new Intl.NumberFormat('en-US');
+  var sSegs  = document.getElementById('s-segs');
+  var sLifts = document.getElementById('s-lifts');
+
+  function measure() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = Math.max(1, Math.round(window.innerWidth  * DPR));
+    H = Math.max(1, Math.round(window.innerHeight * DPR));
+    canvas.width = W; canvas.height = H;
+    CX = W / 2; CY = H * 0.47;
+    RAD = H / 2;
+    ASPECT = Math.max(1, W / H);
+    build();
+  }
+
+  measure();
+  document.getElementById('s-days').textContent = fmt.format(DAYS);
+  document.getElementById('span-lbl').textContent =
+    'One revolution per year · ' + new Date(BIRTH).getUTCFullYear() +
+    ' → ' + new Date(BIRTH + SPAN_MS).getUTCFullYear();
+
+  window.addEventListener('resize', function () { measure(); });
+  window.addEventListener('pointermove', onMove, { passive: true });
+  window.addEventListener('pointerleave', function () { hoverT = -1; caption(-1); });
+
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

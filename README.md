@@ -6,6 +6,8 @@ One page. One file. No build, no dependencies, no network requests.
 spiralling outward from July 2015, with three more rings drawn past the
 present — the years being built toward, drawn but not yet lived.
 
+![Eleven years drawn as one unbroken line — 1 path, 0 lifts, no Math.random()](og.png)
+
 ## Run it
 
 ```bash

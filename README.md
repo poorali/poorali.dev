@@ -31,7 +31,7 @@ sine wave at their own frequency and amplitude:
 | Jan 2021 – Jun 2025 | Upwork — Freelance, 100% success | 0.62 | 9 |
 | Jan 2022 – Dec 2023 | QuadVentures — Lead Web Developer | 0.98 | 4 |
 | Dec 2023 – Jul 2025 | Aligned Voyage — Co-founder | 1.00 | 6 |
-| Jul 2025 – now | German B2B SaaS — Frontend Consultant, design systems | 1.00 | 2 |
+| Jul 2025 – now | mvneco — Frontend Consultant, design systems | 1.00 | 2 |
 
 **Overlaps are the interesting part.** Where two engagements run concurrently
 their frequencies beat against each other, and the rings for those years are

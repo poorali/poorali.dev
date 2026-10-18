@@ -3,549 +3,466 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Nima Poorali · AI products, built in Fethiye</title>
-<meta name="description" content="I turn founder ideas into AI products people pay for, and show how on YouTube. Product engineer in Fethiye, Türkiye.">
-<link rel="canonical" href="https://poorali.dev/">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://poorali.dev/">
-<meta property="og:site_name" content="Nima Poorali">
-<meta property="og:title" content="Nima Poorali · AI products, built in Fethiye">
+<title>Nima Poorali</title>
+<meta name="description" content="Nima Poorali, product engineer. I turn founder ideas into AI products people pay for, and show how on YouTube.">
+<meta name="theme-color" content="#f3f3f0">
+<meta property="og:title" content="Nima Poorali">
 <meta property="og:description" content="I turn founder ideas into AI products people pay for, and show how on YouTube.">
 <meta property="og:image" content="https://poorali.dev/og.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The sky over Fethiye at golden hour: an orange sun touching a flat sea, hills on the left. Nima Poorali, AI products, built in Fethiye.">
-
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nima Poorali · AI products, built in Fethiye">
-<meta name="twitter:description" content="I turn founder ideas into AI products people pay for, and show how on YouTube.">
-<meta name="twitter:image" content="https://poorali.dev/og.png">
-<meta name="theme-color" content="#0B0D10">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0D10'/%3E%3Cpath d='M5 19h22' stroke='%23E8EAED' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='13' cy='19' r='6' fill='%23FF5F3D'/%3E%3C/svg%3E">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230a0a0a'/%3E%3Cpath d='M3 12V4h3.5A3.5 3.5 0 0 1 10 7.5V12H8V7.5a1.5 1.5 0 0 0-3 0V12z' fill='%23f3f3f0' fill-opacity='.6'/%3E%3Crect x='11' y='10' width='2' height='2' fill='%23f3f3f0'/%3E%3C/svg%3E">
 <style>
-  :root {
-    --ink:    #0B0D10;
-    --paper:  #E8EAED;
-    --mute:   #8A919D;
-    --faint:  #575E69;
-    --hair:   rgba(201,207,216,0.12);
-    --accent: #FF5F3D;
-    --fg:     #E8EAED;            /* text over the sky, flipped by the sun */
-    --fg-dim: rgba(232,234,237,0.62);
-    --mono:   ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-    --sans:   "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    --pad:    clamp(16px, 3.2vw, 44px);
-  }
-  :root[data-sky="day"] { --fg: #0B0D10; --fg-dim: rgba(11,13,16,0.62); }
+:root{
+  --paper:#f3f3f0;
+  --ink:#0a0a0a;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Display",Inter,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --text:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --pad:clamp(24px,7.5vw,128px);
+  --rs:clamp(12px,.9vw,14px);      /* readout and label size */
+  --gap:clamp(30px,3.4vw,54px);    /* square to label line */
+  --cy:.5;                         /* height of the optical axis */
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
+a:hover{text-decoration-thickness:2px}
+:focus{outline:none}
+:focus-visible{outline:1px solid currentColor;outline-offset:6px}
+.level:focus,.px:focus-visible,.zi:focus-visible{outline:none}
+html.js #mag:focus-visible{outline-offset:-9px}
+#ring{position:fixed;left:0;top:0;z-index:9;border:1px solid #fff;mix-blend-mode:difference;pointer-events:none;display:none}
+#ring.on{display:block}
 
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--ink); }
-  body {
-    font-family: var(--sans);
-    color: var(--paper);
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  a { color: inherit; }
+/* A level is one zoom depth. Without JS they simply stack. */
+.level{--bg:var(--paper);--fg:var(--ink);background:var(--bg);color:var(--fg)}
+.level.inv{--bg:var(--ink);--fg:var(--paper)}
+html:not(.js) .level:nth-child(even){--bg:var(--ink);--fg:var(--paper)}
+.frame{position:relative;min-height:100vh;min-height:100svh;padding:18vh var(--pad);display:flex;flex-direction:column;justify-content:center}
+.l0 .frame{align-items:center}
+html:not(.js) .l0 .more,html:not(.js) .ro,html:not(.js) .zi{display:none}
 
-  /* ---------------------------------------------------------------- sky */
-  #sky {
-    position: relative;
-    height: 100vh; height: 100svh;
-    min-height: 520px;
-    touch-action: pan-y;
-    cursor: ew-resize;
-    color: var(--fg);
-    transition: color .6s;
-  }
-  #sky canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.head{font-family:var(--sans);font-weight:500;font-size:clamp(46px,7.2vw,116px);line-height:.98;letter-spacing:-.045em;margin:0;text-wrap:balance}
+.more{margin-top:var(--gap);max-width:34em}
+/* the label line: how far you zoomed to get here, then what this page is */
+.label{font:400 var(--rs)/1.4 var(--text);letter-spacing:.01em;font-variant-numeric:tabular-nums;margin:0 0 clamp(14px,1.6vw,22px);white-space:nowrap}
+.label .t{opacity:.6}
+.ro{margin-right:1.5ch}
+.lead{font-size:clamp(17px,1.55vw,23px);line-height:1.42;letter-spacing:-.01em;margin:0;text-wrap:pretty}
+.lines{list-style:none;padding:0;margin:0;font-size:clamp(17px,1.55vw,23px);line-height:1.42;letter-spacing:-.01em;text-wrap:pretty}
+.lines li{display:grid;grid-template-columns:1.6em 1fr;align-items:baseline;margin:0 0 .75em}
+.lines li:last-child{margin-bottom:0}
+.lines.plain li{grid-template-columns:1fr;margin-bottom:.5em}
+.lines .n{font-size:var(--rs);opacity:.6;font-variant-numeric:tabular-nums}
+.stack{display:block;font:400 var(--rs)/1.5 var(--text);opacity:.6;margin:.3em 0 .35em}
+.mailp{margin-top:.5em}
+.mail{font-family:var(--sans);font-weight:500;font-size:1.32em;letter-spacing:-.025em}
+.links{display:flex;flex-wrap:wrap;gap:8px 24px;margin:clamp(22px,2.4vw,34px) 0 0;padding:0;list-style:none;font:400 var(--rs)/1.4 var(--text)}
+.links .soon{opacity:.6}
+.nw{white-space:nowrap}
 
-  .over {
-    position: absolute; inset: 0;
-    display: grid; grid-template-rows: auto 1fr auto;
-    padding: var(--pad);
-    pointer-events: none;
-  }
-  .over a { pointer-events: auto; }
+/* the pixel: a square full stop exactly as tall as the dot on the i, set on whole pixels by the script */
+.px{display:inline-block;width:.13em;height:.13em;background:currentColor;vertical-align:baseline;margin-left:.05em;cursor:zoom-in}
+.l0 .px{width:8px;height:8px;margin:0}
+.px.ghost{background:transparent}
 
-  header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-  .lockup { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .lockup svg { width: 34px; height: 34px; flex: none; overflow: visible; }
-  .lockup .rule { stroke: currentColor; transition: stroke .6s; }
-  .lockup b {
-    font-weight: 500; font-size: 15px; letter-spacing: 0.02em;
-  }
-  nav { display: flex; gap: clamp(14px, 2.4vw, 28px); font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
-  nav a { text-decoration: none; opacity: .72; transition: opacity .2s; }
-  nav a:hover { opacity: 1; }
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#mag{display:none}
 
-  .hero { align-self: center; margin-top: -12vh; }
-  h1 {
-    margin: 0; max-width: 15ch;
-    font-weight: 400;
-    font-size: clamp(32px, 5.4vw, 76px);
-    line-height: 1.04;
-    letter-spacing: -0.028em;
-    text-wrap: balance;
-  }
-  .hero p {
-    margin: clamp(14px, 2vw, 24px) 0 0;
-    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--fg-dim); line-height: 1.9;
-  }
+/* ---------- zoom mode ---------- */
+html.js,html.js body{height:100%;overflow:hidden;overscroll-behavior:none}
+html.js #stage{position:fixed;inset:0;overflow:hidden;touch-action:none;cursor:zoom-in;background:var(--paper);-webkit-tap-highlight-color:transparent}
+html.js .level{position:absolute;left:0;top:0;width:var(--D);height:var(--D);transform-origin:0 0;opacity:0;contain:layout style}
+html.js .frame{position:absolute;display:block;left:calc((var(--D) - var(--W)) / 2);top:calc((var(--D) - var(--H)) / 2);width:var(--W);height:var(--H);min-height:0;padding:0}
+/* desktop: the square sits dead centre; what you read ends at it, what follows hangs from its left edge */
+html.js .head{position:absolute;right:50%;bottom:calc((1 - var(--cy)) * 100%);max-width:calc(50% - var(--pad));text-align:right}
+html.js .l0 .head{right:auto;left:50%}
+html.js .more{position:absolute;left:var(--ax,50%);top:calc(var(--cy) * 100% + var(--gap));width:calc(50% - var(--pad));max-width:36em;margin:0}
+html.js .ro{visibility:hidden}
+html.js a{cursor:pointer}
+/* the readout: one live counter that locks into each page's label line */
+html.js #mag{display:block;position:fixed;left:0;top:0;z-index:10;font:400 var(--rs)/1.4 var(--text);letter-spacing:.01em;font-variant-numeric:tabular-nums;white-space:nowrap;
+  color:#fff;mix-blend-mode:difference;background:none;border:0;margin:0;padding:10px;cursor:zoom-out;-webkit-tap-highlight-color:transparent;will-change:transform}
+html.js #mag.at0{cursor:zoom-in}
+html.js.intro .l0 .more,html.js.intro #mag{animation:in .9s .5s ease both}
+html.still #mag{display:none}
+@keyframes in{from{opacity:0}}
 
-  .readout {
-    display: flex; justify-content: space-between; align-items: end; gap: 16px;
-    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; line-height: 1.8;
-    color: rgba(232,234,237,0.55);   /* always on the dark of the sea */
-  }
-  .readout .now { color: var(--paper); }
-  .readout .hint { text-align: right; }
-
-  /* ---------------------------------------------------------- the page */
-  section, footer { padding: clamp(64px, 11vw, 140px) var(--pad) 0; max-width: 1180px; margin: 0 auto; }
-  .lbl {
-    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--faint); margin: 0 0 clamp(22px, 3vw, 36px);
-    display: flex; gap: 14px; align-items: center;
-  }
-  .lbl::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
-  h2 {
-    margin: 0 0 clamp(28px, 4vw, 52px); max-width: 22ch;
-    font-weight: 400; font-size: clamp(26px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.02em;
-  }
-
-  .shows { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 64px); }
-  .show { border-top: 1px solid var(--hair); padding-top: 20px; }
-  .show h3 { margin: 0 0 10px; font-weight: 500; font-size: 20px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
-  .show h3 i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); display: inline-block; }
-  .show h3 i.day { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent); }
-  .show p { margin: 0; color: var(--mute); font-size: 16px; line-height: 1.6; max-width: 44ch; }
-  .meta { margin-top: 18px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; color: var(--faint); line-height: 1.9; }
-  .meta b { font-weight: 400; color: var(--paper); }
-
-  table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
-  th, td { text-align: left; padding: 14px 12px 14px 0; border-bottom: 1px solid var(--hair); white-space: nowrap; }
-  th { font-weight: 400; color: var(--faint); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
-  td { color: var(--paper); }
-  td.soon { color: var(--faint); }
-  .scroll-x { overflow-x: auto; }
-  .note { margin: 18px 0 0; color: var(--faint); font-size: 14px; line-height: 1.6; max-width: 60ch; }
-
-  .founders p { margin: 0; color: var(--mute); font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; max-width: 46ch; }
-  .cta {
-    display: inline-flex; align-items: center; gap: 12px; margin-top: 28px;
-    font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
-    text-decoration: none; color: var(--paper);
-    border-bottom: 1px solid rgba(255,95,61,0.5); padding-bottom: 4px;
-  }
-  .cta:hover { color: var(--accent); }
-
-  footer { padding-bottom: clamp(40px, 6vw, 72px); }
-  .links { display: flex; flex-wrap: wrap; gap: 10px 28px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.04em; }
-  .links a { text-decoration: none; color: var(--paper); }
-  .links a:hover { color: var(--accent); }
-  .links span { color: var(--faint); }
-  .colophon { margin-top: clamp(40px, 6vw, 72px); border-top: 1px solid var(--hair); padding-top: 18px; color: var(--faint); font-family: var(--mono); font-size: 11.5px; line-height: 1.9; letter-spacing: 0.03em; }
-
-  @media (max-width: 720px) {
-    nav { display: none; }
-    .shows { grid-template-columns: 1fr; }
-    .readout { flex-direction: column; align-items: flex-start; gap: 4px; }
-    .readout .hint { text-align: left; }
-    .hero { margin-top: -16vh; }
-    .hero p { font-size: 11px; }
-  }
-
-  /* embed=1 hides everything but the sky; the brand kit draws with it */
-  :root[data-embed] .over, :root[data-embed] main, :root[data-embed] footer { display: none; }
+/* phones and narrow windows: one column on the margin; the square ends the name wherever the name ends */
+@media (max-width:560px),(max-width:680px) and (min-height:561px){
+  .head{font-size:14vw;line-height:.96}
+  .l0 .px{width:6px;height:6px}
+  html.js .head{left:var(--pad);right:var(--pad);bottom:calc((1 - var(--cy)) * 100% - .13em);max-width:none;text-align:left}
+  html.js .l0 .head{right:auto;left:50%}
+  html.js .more{left:var(--pad);right:var(--pad);width:auto;top:calc(var(--cy) * 100% + 34px)}
+  html.js .l0 .more{left:var(--ax)}
+}
+@media (max-width:560px) and (max-height:620px),(max-width:680px) and (min-height:561px) and (max-height:620px){
+  .head{font-size:min(14vw,8vh)}
+  html.js .more{top:calc(var(--cy) * 100% + 24px)}
+  .label{margin-bottom:10px}
+  .lead,.lines{font-size:15px;line-height:1.38}
+  .lines li{margin-bottom:.5em}
+}
+@media (max-height:560px) and (min-width:561px){
+  .head{font-size:min(7.2vw,13vh)}
+  :root{--gap:18px;--cy:.42}
+  html.js .more{width:calc(50% - 32px)}
+  .label{margin-bottom:8px}
+  .lead,.lines{font-size:14px;line-height:1.36}
+  .lines li{margin-bottom:.4em}
+  .stack{margin:.15em 0 .2em}
+  .links{margin-top:12px}
+}
+@media (max-height:420px) and (min-width:561px){
+  .head{font-size:min(7.2vw,12vh)}
+  :root{--cy:.36;--gap:14px}
+  .lead,.lines{font-size:13px;line-height:1.32}
+  .lines.plain li{margin-bottom:.3em}
+}
+@media (prefers-reduced-motion:reduce){html.js.intro .l0 .more,html.js.intro #mag{animation:none}}
 </style>
 </head>
-
 <body>
-
-<div id="sky" aria-label="The sky over Fethiye right now. Drag across it to move through the day.">
-  <canvas></canvas>
-  <div class="over">
-    <header>
-      <a class="lockup" href="/" aria-label="Nima Poorali">
-        <!-- the mark: the sun on the horizon, which is also a playhead on a
-             timeline. Here the dot sits at the time of day in Fethiye. -->
-        <svg viewBox="0 0 32 32" aria-hidden="true">
-          <path class="rule" d="M3 19h26" stroke-width="2.4" stroke-linecap="round"/>
-          <circle id="mark-dot" cx="13" cy="19" r="6" fill="#FF5F3D"/>
-        </svg>
-        <b>Nima Poorali</b>
-      </a>
-      <nav>
-        <a href="#shows">Shows</a>
-        <a href="#numbers">Numbers</a>
-        <a href="#founders">Founders</a>
-      </nav>
-    </header>
-
-    <div class="hero">
-      <h1>I turn founder ideas into AI products people pay for, and show how on YouTube.</h1>
-      <p>Product engineer · Fethiye, Türkiye</p>
-    </div>
-
-    <div class="readout" aria-live="polite">
-      <div id="readout"><span class="now">Fethiye</span></div>
-      <div class="hint" id="hint">Drag across the sky to move through the day</div>
-    </div>
-  </div>
-</div>
-
-<main>
-
-  <section id="shows">
-    <div class="lbl">01 · The shows</div>
-    <h2>Two kinds of video, one coast.</h2>
-    <div class="shows">
-      <article class="show">
-        <h3><i></i>Built in Fethiye</h3>
-        <p>One real product, from idea to first revenue in 30 days of evenings and weekends. The finale shows the honest numbers.</p>
-        <div class="meta">Every two weeks · 12 to 20 minutes<br><b id="s1-status">Season 1 · in pre-production</b></div>
-      </article>
-      <article class="show">
-        <h3><i class="day"></i>Tested in Fethiye</h3>
-        <p>New AI tools and gadgets, tried in real life on the coast with my friend from the breakfast café. He gets the final word.</p>
-        <div class="meta">In the weeks between · 8 to 10 minutes<br><b>Episode 1 · in pre-production</b></div>
-      </article>
+<main id="stage">
+  <section tabindex="-1" class="level l0" aria-label="Start">
+    <div class="frame">
+      <h1 class="sr">Nima Poorali</h1>
+      <div class="head"><span class="px" role="button" tabindex="0" aria-label="Zoom into the square"></span></div>
+      <div class="more" aria-hidden="true">
+        <p class="label"><span class="ro">1×</span><span class="t" id="hint">Zoom into the square</span></p>
+      </div>
     </div>
   </section>
 
-  <section id="numbers">
-    <div class="lbl">02 · Open numbers</div>
-    <h2>Every season runs in public.</h2>
-    <div class="scroll-x">
-      <table>
-        <thead><tr><th>Season</th><th>Product</th><th>Day</th><th>Users</th><th>Revenue</th><th>Build hours</th></tr></thead>
-        <tbody id="ledger"></tbody>
-      </table>
+  <section tabindex="-1" class="level" aria-label="Nima Poorali">
+    <div class="frame">
+      <h2 class="head">Nima <span class="nw">Poorali<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">Product engineer</span></p>
+        <p class="lead">I turn founder ideas into AI products people pay&nbsp;for, and show how on&nbsp;YouTube.</p>
+      </div>
     </div>
-    <p class="note">Users, revenue and hours are updated as each season runs, including the weeks that go badly.</p>
   </section>
 
-  <section id="founders" class="founders">
-    <div class="lbl">03 · Founders</div>
-    <h2>Have an idea and no product team?</h2>
-    <p>From January 2027 I take on one founder at a time and build their AI product end to end, from the first call to paying users. Eleven years of shipping web products and one company co-founded sit behind it.</p>
-    <a class="cta" href="mailto:hi@poorali.dev?subject=Founder%20list">Join the founder list · hi@poorali.dev</a>
+  <section tabindex="-1" class="level" aria-label="Videos">
+    <div class="frame">
+      <h2 class="head">Two kinds of <span class="nw">video<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">YouTube and LinkedIn, soon</span></p>
+        <ol class="lines">
+          <li><span class="n">1</span><span>I build a real AI product from idea to first revenue in 30&nbsp;days of evenings and weekends, with honest numbers.</span></li>
+          <li><span class="n">2</span><span>I test new tech, AI tools and <span class="nw">AI-built</span> gadgets in real life, with a very funny&nbsp;friend.</span></li>
+        </ol>
+      </div>
+    </div>
   </section>
 
-  <footer>
-    <div class="lbl">Elsewhere</div>
-    <div class="links">
-      <a href="https://www.linkedin.com/in/poorali/">LinkedIn</a>
-      <span>YouTube · soon</span>
-      <a href="https://github.com/poorali">GitHub</a>
-      <a href="mailto:hi@poorali.dev">hi@poorali.dev</a>
+  <section tabindex="-1" class="level" aria-label="Background">
+    <div class="frame">
+      <h2 class="head">Since <span class="nw">2015<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">Full stack</span></p>
+        <ul class="lines plain">
+          <li>I&rsquo;ve shipped web products ever since.<span class="stack"><span class="nw">React, Vue, Next.js,</span> <span class="nw">Node, Laravel, TypeScript</span></span></li>
+          <li>I co-founded a SaaS for freelancer collaboration.</li>
+          <li>I&rsquo;ve freelanced for 4.5&nbsp;years, with 100% job success.</li>
+        </ul>
+      </div>
     </div>
-    <div class="colophon">
-      The sky at the top of this page is Fethiye's, right now, worked out from the clock and 36.62° N, 29.12° E.
-      The orange dot is the sun, and the same dot is the logo.<br>
-      One file · no images · no requests · no Math.random()
-    </div>
-  </footer>
+  </section>
 
+  <section tabindex="-1" class="level" aria-label="Contact">
+    <div class="frame">
+      <h2 class="head">Say <span class="nw">hi<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">For founders</span></p>
+        <p class="lead">Building an AI product? Tell me about&nbsp;it.</p>
+        <p class="lead mailp"><a class="mail" href="mailto:hi@poorali.dev">hi@poorali.dev</a></p>
+        <ul class="links">
+          <li><a href="https://www.linkedin.com/in/poorali/" rel="me noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/poorali" rel="me noopener">GitHub</a></li>
+          <li class="soon">YouTube, soon</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </main>
+<i id="ring" aria-hidden="true"></i>
+<button id="mag" type="button" aria-label="Not magnified yet. Zoom in"><span id="magv">1×</span></button>
 
 <script>
-(function () {
-  'use strict';
+(() => {
+  const doc = document.documentElement;
+  doc.classList.add('js');
+  const stage = document.getElementById('stage');
+  const lv = [...stage.querySelectorAll('.level')];
+  const fr = lv.map(l => l.querySelector('.frame'));
+  const px = lv.map(l => l.querySelector('.px'));
+  const ro = lv.map(l => l.querySelector('.ro'));
+  const more = lv.map(l => l.querySelector('.more'));
+  const N = lv.length;
+  const mag = document.getElementById('mag'), magv = document.getElementById('magv'), hint = document.getElementById('hint');
+  const meta = document.querySelector('meta[name=theme-color]');
+  const ring = document.getElementById('ring');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const phone = matchMedia('(max-width: 560px), (max-width: 680px) and (min-height: 561px)');
+  const touch = matchMedia('(hover: none)').matches;
+  const PAPER = '#f3f3f0', INK = '#0a0a0a';
+  const ctx = document.createElement('canvas').getContext('2d');
 
-  /* ==================================================================
-     THE SEASONS — the only thing to edit as the show runs.
-     start: 'YYYY-MM-DD' once filming starts, null until then.
-     ================================================================== */
-  var SEASONS = [
-    { n: 1, product: 'Announced soon', start: null, days: 30, users: 0, revenue: 0, hours: 0 }
-  ];
+  let W, H, D, ox, oy, dpr, A = [], slot = [], mo = { x: 0, y: 0 }, hintText = '';
+  let z = 0, v = 0, T = 0, raf = 0, settled = -1, touched = false, viaKey = false, roD = -1;
 
-  /* ==================================================================
-     THE PLACE — Fethiye. Türkiye keeps UTC+3 all year, no DST.
-     ================================================================== */
-  var LAT = 36.62, LON = 29.12, TZ = 3;
-  var DAY = 86400000, RAD = Math.PI / 180;
-  var ACCENT = [255, 95, 61];
-  var params = new URLSearchParams(location.search);
-  var EMBED = params.has('embed');
-  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (EMBED) document.documentElement.setAttribute('data-embed', '');
+  const q = new URLSearchParams(location.search);
+  if (q.has('z')) { z = T = Math.max(0, parseFloat(q.get('z')) || 0); touched = z > 0; }
+  else doc.classList.add('intro');
+  const still = q.has('still'); // a bare frame for the banners: no readout, the square framed dead centre
+  if (still) doc.classList.add('still');
 
-  /* deterministic grain, a hash of an integer. Never Math.random. */
-  function grain(n) {
-    n = Math.imul(n ^ (n >>> 15), 0x2C1B3C6D);
-    n = Math.imul(n ^ (n >>> 12), 0x297A2D39);
-    return ((n ^ (n >>> 15)) >>> 0) / 4294967296;
-  }
+  // how far the ink of a line's first glyph sits right of its box
+  const bearing = (font, ch) => { ctx.font = font; return -ctx.measureText(ch).actualBoundingBoxLeft; };
+  const fontOf = el => { const c = getComputedStyle(el); return `${c.fontStyle} ${c.fontWeight} ${c.fontSize} ${c.fontFamily}`; };
+  let magFont = '';
 
-  /* ==================================================================
-     WHERE THE SUN IS — low-precision solar position, good to a fraction
-     of a degree, which is far finer than a pixel here.
-     ================================================================== */
-  function sun(ms) {
-    var d = ms / DAY - 10957.5;                         // days from J2000
-    var g = (357.529 + 0.98560028 * d) * RAD;
-    var q = 280.459 + 0.98564736 * d;
-    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
-    var e = (23.439 - 0.00000036 * d) * RAD;
-    var ra = Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L));
-    var dec = Math.asin(Math.sin(e) * Math.sin(L));
-    var gmst = ((18.697374558 + 24.06570982441908 * d) % 24 + 24) % 24;
-    var H = (gmst * 15 + LON) * RAD - ra;
-    var lat = LAT * RAD;
-    var alt = Math.asin(Math.sin(lat) * Math.sin(dec) + Math.cos(lat) * Math.cos(dec) * Math.cos(H));
-    var az = Math.atan2(-Math.sin(H), Math.cos(lat) * Math.tan(dec) - Math.sin(lat) * Math.cos(H));
-    return { alt: alt / RAD, az: ((az / RAD) + 360) % 360 };
-  }
-
-  // local midnight in Fethiye for the day containing ms
-  function midnight(ms) { var l = ms + TZ * 3600000; return l - (l % DAY + DAY) % DAY - TZ * 3600000; }
-
-  function riseSet(day0) {
-    var rise = null, set = null, prev = sun(day0).alt;
-    for (var m = 1; m <= 1440; m++) {
-      var a = sun(day0 + m * 60000).alt;
-      if (prev < -0.833 && a >= -0.833) rise = m;
-      if (prev >= -0.833 && a < -0.833) set = m;
-      prev = a;
-    }
-    return { rise: rise, set: set };
-  }
-
-  /* ==================================================================
-     WHAT COLOUR THE SKY IS — keyed on the sun's altitude. Muted on
-     purpose: the only saturated thing on the page is the sun.
-     ================================================================== */
-  var KEYS = [
-    // alt,  zenith,     horizon,    sea
-    [-18, '#07090C', '#0B0D10', '#07090B'],
-    [-10, '#0A0E18', '#151B2A', '#090C12'],
-    [ -4, '#18203A', '#3A4466', '#121829'],
-    [ -1, '#29355A', '#9A6A6A', '#1B2238'],
-    [  2, '#3E5078', '#E39468', '#2A3550'],
-    [  6, '#5D7398', '#EDB98A', '#3C4F6E'],
-    [ 12, '#7E98BC', '#E7D3B6', '#4F6A86'],
-    [ 25, '#8EAACB', '#E3DED3', '#5F7E98'],
-    [ 60, '#9DBADA', '#ECE9E1', '#6B8CA6']
-  ];
-  function hex(h) { return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
-  KEYS.forEach(function (k) { k[1] = hex(k[1]); k[2] = hex(k[2]); k[3] = hex(k[3]); });
-  function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
-  function rgb(c, a) { return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + (a == null ? 1 : a) + ')'; }
-
-  function palette(alt) {
-    if (alt <= KEYS[0][0]) return { zen: KEYS[0][1], hor: KEYS[0][2], sea: KEYS[0][3] };
-    for (var i = 1; i < KEYS.length; i++) {
-      if (alt <= KEYS[i][0]) {
-        var t = (alt - KEYS[i - 1][0]) / (KEYS[i][0] - KEYS[i - 1][0]);
-        return { zen: mix(KEYS[i - 1][1], KEYS[i][1], t), hor: mix(KEYS[i - 1][2], KEYS[i][2], t), sea: mix(KEYS[i - 1][3], KEYS[i][3], t) };
+  // ----- geometry: every level is a D x D square; its pixel holds the next level
+  function measure() {
+    W = innerWidth; H = innerHeight; D = Math.max(W, H);
+    ox = (W - D) / 2; oy = (H - D) / 2; dpr = devicePixelRatio || 1;
+    doc.style.setProperty('--W', W + 'px');
+    doc.style.setProperty('--H', H + 'px');
+    doc.style.setProperty('--D', D + 'px');
+    lv.forEach(l => { l.style.transform = `translate(${ox}px,${oy}px)`; });
+    const snap = n => Math.round(n * dpr) / dpr;
+    const cy = parseFloat(getComputedStyle(doc).getPropertyValue('--cy')) || 0.5;
+    A = px.map((p, i) => {
+      const head = p.closest('.head');
+      head.style.transform = p.style.transform = '';
+      head.style.marginLeft = '';
+      if (i) { // whole-pixel square, 0.13em: the size of the dot on the i
+        const fs = parseFloat(getComputedStyle(head).fontSize);
+        const s = Math.max(4, Math.round(fs * 0.13));
+        p.style.width = p.style.height = s + 'px';
       }
+      const centred = i === 0 || !phone.matches;
+      // on the phone column the name starts exactly on the margin, ink not box
+      if (!centred) head.style.marginLeft = -bearing(fontOf(head), head.textContent.trim()[0]) + 'px';
+      const r = p.getBoundingClientRect(), s = r.width;
+      const x = snap(centred ? W / 2 - s / 2 : r.left), y = snap(centred ? H * cy - s / 2 : r.top);
+      // whole-pixel move for the line, sub-pixel remainder on the square, so its edges land exactly
+      const dx = x - r.left, dy = y - r.top, hx = Math.round(dx), hy = Math.round(dy);
+      head.style.transform = `translate(${hx}px,${hy}px)`;
+      p.style.transform = `translate(${dx - hx}px,${dy - hy}px)`;
+      fr[i].style.setProperty('--ax', x + 'px');
+      return { x: x - ox, y: y - oy, s, f: D / s };
+    });
+    // where the readout locks in on each page
+    slot = ro.map(r => { const b = r.getBoundingClientRect(); return { x: b.left, y: b.top }; });
+    mag.style.transform = 'none';
+    const mb = mag.getBoundingClientRect(), vb = magv.getBoundingClientRect();
+    mo = { x: vb.left - mb.left, y: vb.top - mb.top };
+    magFont = fontOf(mag);
+    // the first hint says how to go in, in words that fit beside the square
+    ctx.font = fontOf(hint);
+    const room = W - Math.min(128, Math.max(24, W * .075)) - (A[0].x + ox) - ctx.measureText('1×  ').width - 4;
+    const say = touch ? ['Tap the square'] : ['Scroll into the square', 'Click the square'];
+    hintText = say.find(t => ctx.measureText(t).width <= room) || say[say.length - 1];
+    roD = -1;
+  }
+
+  const m6 = (s, x, y) => `matrix(${s},0,0,${s},${x},${y})`;
+  const smooth = (a, b, x) => { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); };
+  const depthMag = d => { let m = 1; for (let i = 0; i < d; i++) m *= A[i % N].f; return m; };
+
+  function render(Z) {
+    const d = Math.max(0, Math.floor(Z)), t = Z - d;
+    const ci = d % N, ni = (d + 1) % N, a = A[ci], f = a.f;
+    const S = Math.pow(f, t);
+    // zoom about the one point that lands the pixel exactly on the viewport square
+    const k = f / (f - 1), qx = ox + a.x * k, qy = oy + a.y * k;
+    const tx = qx + S * (ox - qx), ty = qy + S * (oy - qy);
+    const s2 = S * a.s / D, nx = tx + S * a.x, ny = ty + S * a.y, sz = s2 * D;
+    const covered = nx <= 0 && ny <= 0 && nx + sz >= W && ny + sz >= H && t > 0;
+    const cx = still ? W / 2 - nx - sz / 2 : 0, cy = still ? H / 2 - ny - sz / 2 : 0;
+    if (d !== roD) { // each page's label line reserves room for its own depth
+      roD = d;
+      ro[ci].textContent = fmt(depthMag(d));
+      ro[ni].textContent = fmt(depthMag(d + 1));
+      // the way in is said once; when the loop comes round, the lone square only shows how deep you are
+      hint.textContent = d === 0 ? hintText : '';
     }
-    var k = KEYS[KEYS.length - 1];
-    return { zen: k[1], hor: k[2], sea: k[3] };
-  }
-
-  /* ==================================================================
-     DRAW — the whole scene for one moment. Exposed so the brand kit can
-     paint banners with the same hand: window.sky.draw(ctx, w, h, ms, o).
-     ================================================================== */
-  function hills(x, w, hy, h) {
-    // a headland to the west, made of a few fixed waves. Not a survey of
-    // the coast, just its shape: steep from the sea, a long ridge inland.
-    var u = (x / w - 0.86) / 0.14;
-    if (u < 0) return hy;
-    function bump(c, wd, a) { var z = (u - c) / wd; return a * Math.exp(-z * z); }
-    var rise = (1 - Math.pow(1 - Math.min(1, u), 2)) * 0.10 + bump(0.75, 0.22, 0.05)
-             + Math.sin(u * 19.0 + 0.7) * 0.003 + Math.sin(u * 53.0) * 0.0015;
-    return hy - rise * Math.min(h, w * 0.75);
-  }
-
-  function draw(ctx, w, h, ms, o) {
-    o = o || {};
-    var s = sun(ms), alt = s.alt, p = palette(alt);
-    var hy = Math.round(h * (o.horizon || 0.70));
-    var tick = o.tick || 0;
-
-    // sky
-    var g = ctx.createLinearGradient(0, 0, 0, hy);
-    g.addColorStop(0, rgb(p.zen));
-    g.addColorStop(0.7, rgb(mix(p.zen, p.hor, 0.55)));
-    g.addColorStop(1, rgb(p.hor));
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, w, hy + 1);
-
-    // stars, faded in as the sky darkens; fixed positions from the hash
-    var night = Math.max(0, Math.min(1, (-alt - 5) / 9));
-    if (night > 0) {
-      var n = Math.round(w * hy / 5200);
-      for (var i = 0; i < n; i++) {
-        var sx = grain(i * 3 + 1) * w, sy = Math.pow(grain(i * 3 + 2), 1.6) * hy * 0.92;
-        var b = grain(i * 3 + 3);
-        var tw = REDUCED ? 1 : 0.75 + 0.25 * Math.sin(tick / 900 + i);
-        ctx.fillStyle = 'rgba(232,234,237,' + (night * (0.18 + b * 0.55) * tw).toFixed(3) + ')';
-        var r = b > 0.93 ? 1.3 : 0.8;
-        ctx.fillRect(sx, sy, r * (o.dpr || 1), r * (o.dpr || 1));
-      }
+    for (let i = 0; i < N; i++) {
+      const el = lv[i], st = el.style;
+      if (i === ci) {
+        st.transform = m6(S, tx + cx, ty + cy); st.opacity = covered ? 0 : 1; st.zIndex = 1;
+        el.classList.toggle('inv', d % 2 === 1);
+        fr[i].style.opacity = more[i].style.opacity = 1; px[i].classList.add('ghost');
+      } else if (i === ni) {
+        st.transform = m6(s2, nx + cx, ny + cy); st.opacity = 1; st.zIndex = 2;
+        el.classList.toggle('inv', (d + 1) % 2 === 1);
+        fr[i].style.opacity = smooth(0.03, 0.12, s2); px[i].classList.remove('ghost');
+        // its text waits until the page has nearly landed, so nothing passes under the readout
+        more[i].style.opacity = smooth(0.85, 1, s2);
+      } else if (st.opacity !== '0') st.opacity = 0;
     }
+    stage.style.background = d % 2 ? INK : PAPER;
+    const txt = fmt(depthMag(d) * S);
+    if (magv.textContent !== txt) magv.textContent = txt;
+    // it moves only as fast as the incoming page grows, so it keeps to that page's left edge
+    const e = Math.max(0, (S - 1) / (f - 1)), p0 = slot[ci], p1 = slot[ni];
+    const mx = p0.x + (p1.x - p0.x) * e - Math.max(0, bearing(magFont, txt[0])), my = p0.y + (p1.y - p0.y) * e;
+    mag.style.transform = `translate(${Math.round((mx - mo.x) * dpr) / dpr}px,${Math.round((my - mo.y) * dpr) / dpr}px)`;
+  }
 
-    // the sun. Viewer faces south: east on the left, west on the right.
-    var sr = Math.max(5, Math.min(w, h) * (o.sun || 0.022));
-    var sx = w * (o.sunX != null ? o.sunX : 0.5 + (s.az - 180) / 300);
-    var sy = hy - (alt / 62) * (hy - h * 0.08);
-    if (o.sunY != null) sy = hy - o.sunY * (hy - h * 0.08);
-    if (alt > -2 || o.sunY != null) {
-      var glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr * 9);
-      glow.addColorStop(0, rgb(ACCENT, 0.30 * Math.max(0.25, 1 - Math.max(0, alt) / 30)));
-      glow.addColorStop(1, rgb(ACCENT, 0));
-      ctx.fillStyle = glow;
-      ctx.fillRect(sx - sr * 9, sy - sr * 9, sr * 18, sr * 18);
-      ctx.fillStyle = rgb(ACCENT);
-      ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.fill();
+  function fmt(m) {
+    if (m < 9.95) { const r = Math.round(m); return (Math.abs(m - r) < 0.02 ? r : m.toFixed(1)) + '×'; }
+    if (m >= 1e15) return m.toExponential(2).replace('e+', 'e') + '×'; // past whole-number precision
+    return Math.round(m).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + '×';
+  }
+
+  // ----- motion: log-zoom moves along a cubic Hermite path that keeps the current velocity
+  // and lands exactly on the target, so the readout stops on its true number with no tail.
+  let tw = null;
+  function go(nt, dur) {
+    T = Math.max(-0.06, nt);
+    ring.classList.remove('on');
+    if (T > 0.01) touched = true;
+    if (reduce.matches) { T = Math.round(Math.max(0, T)); z = T; v = 0; render(z); settle(); return; }
+    const dist = Math.abs(T - z);
+    // peak speed of this curve is 1.5 x dist / dur: keep it under 2.6 levels a second,
+    // so long rewinds glide instead of strobing black and white
+    dur = Math.max(dur == null ? 0.45 + 0.5 * Math.min(dist, 1) : dur, dist * 0.58);
+    tw = { z0: z, v0: v, T, dur, t0: performance.now() };
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick(now) {
+    const s = Math.max(0, (now - tw.t0) / 1000 / tw.dur);
+    if (s >= 1) { z = tw.T; v = 0; render(z); raf = 0; settle(); return; }
+    const s2 = s * s, s3 = s2 * s, d = tw.dur, a = tw.z0, b = tw.v0 * d, c = tw.T;
+    z = (2 * s3 - 3 * s2 + 1) * a + (s3 - 2 * s2 + s) * b + (3 * s2 - 2 * s3) * c;
+    v = ((6 * s2 - 6 * s) * a + (3 * s2 - 4 * s + 1) * b + (6 * s - 6 * s2) * c) / d;
+    render(z); raf = requestAnimationFrame(tick);
+  }
+  function settle() {
+    const d = Math.max(0, Math.round(z)), ci = d % N;
+    if (d === settled) return;
+    settled = d;
+    lv.forEach((l, i) => { l.inert = i !== ci; });
+    meta.content = d % 2 ? INK : PAPER;
+    doc.style.background = d % 2 ? INK : PAPER;
+    mag.classList.toggle('at0', d === 0);
+    mag.setAttribute('aria-label', d === 0 ? 'Not magnified yet. Zoom in' : `Magnified ${magv.textContent.replace(/[\u2009×]/g, '')} times. Back to the start`);
+    if (viaKey) { viaKey = false; lv[ci].focus({ preventScroll: true }); }
+  }
+  const step = dir => go(Math.max(0, Math.round(T) + dir));
+  const snapT = dir => {
+    const b = Math.floor(T), fr = T - b;
+    go(Math.max(0, dir > 0 ? (fr > 0.05 ? b + 1 : b) : dir < 0 ? (fr < 0.95 ? b : b + 1) : Math.round(T)));
+  };
+
+  // ----- wheel and trackpad (pinch arrives as ctrl+wheel: follow the fingers exactly)
+  let wt = 0, wdir = 0, racc = 0;
+  addEventListener('wheel', e => {
+    e.preventDefault();
+    const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? H : 1);
+    if (!dy) return;
+    wdir = Math.sign(dy);
+    if (reduce.matches) {
+      racc += dy; clearTimeout(wt);
+      wt = setTimeout(() => { if (Math.abs(racc) > 20) step(Math.sign(racc)); racc = 0; }, 160);
+      return;
     }
+    const f = A[Math.max(0, Math.floor(z)) % N].f;
+    go(T + (e.ctrlKey ? -dy / 100 / Math.log(f) : dy / 800), e.ctrlKey ? 0.12 : 0.32);
+    clearTimeout(wt); wt = setTimeout(() => snapT(e.ctrlKey ? -wdir : wdir), 150);
+  }, { passive: false });
 
-    // sea
-    var sg = ctx.createLinearGradient(0, hy, 0, h);
-    sg.addColorStop(0, rgb(mix(p.sea, p.hor, 0.18)));
-    sg.addColorStop(0.55, rgb(mix(p.sea, [11, 13, 16], 0.5)));
-    sg.addColorStop(1, '#0B0D10');
-    ctx.fillStyle = sg;
-    ctx.fillRect(0, hy, w, h - hy);
-
-    // the sun's path on the water: short strokes, wider with depth
-    if (sx > -sr && sx < w + sr && (alt > -1 || o.sunY != null)) {
-      var str = Math.max(0, Math.min(1, (alt + 1) / 8));
-      if (o.sunY != null) str = 1;
-      var rows = Math.round((h - hy) / Math.max(3, (o.dpr || 1) * 3.2));
-      var frame = REDUCED ? 0 : Math.floor(tick / 380);
-      for (var r2 = 0; r2 < rows; r2++) {
-        var t = r2 / rows, y = hy + 2 + t * (h - hy - 2);
-        var spread = sr * (0.9 + t * 7);
-        var k = grain(r2 * 7919 + frame * 104729);
-        var len = spread * (0.25 + k * 0.9);
-        var off = (grain(r2 * 31 + frame * 7) - 0.5) * spread * 1.3;
-        ctx.fillStyle = rgb(mix(ACCENT, p.hor, 0.25 + t * 0.4), (str * (1 - t) * (0.25 + k * 0.6)).toFixed(3));
-        ctx.fillRect(sx + off - len / 2, y, len, Math.max(1, (o.dpr || 1) * 1.2));
-      }
-    }
-
-    // the hills, drawn over the sun so it can rise from behind them
-    var land = mix(p.sea, p.zen, 0.35);
-    ctx.fillStyle = rgb(mix(land, [11, 13, 16], 0.25));
-    ctx.beginPath();
-    ctx.moveTo(w * 0.85, hy + 1);
-    for (var x = Math.floor(w * 0.85); x <= w + 2; x += 2) ctx.lineTo(x, hills(x, w, hy, h));
-    ctx.lineTo(w + 2, hy + 1);
-    ctx.closePath();
-    ctx.fill();
-
-    // the horizon line itself
-    ctx.fillStyle = alt > 3 ? 'rgba(11,13,16,0.18)' : 'rgba(232,234,237,0.16)';
-    ctx.fillRect(0, hy, w * 0.87, Math.max(1, o.dpr || 1));
-
-    return { alt: alt, az: s.az, sx: sx, sy: sy, hy: hy, day: alt > 3 };
-  }
-
-  window.sky = { draw: draw, sun: sun, palette: palette, LAT: LAT, LON: LON, TZ: TZ };
-  if (EMBED) return;
-
-  /* ==================================================================
-     THE PAGE
-     ================================================================== */
-  var host = document.getElementById('sky');
-  var canvas = host.querySelector('canvas');
-  var ctx = canvas.getContext('2d');
-  var dot = document.getElementById('mark-dot');
-  var readout = document.getElementById('readout');
-  var hint = document.getElementById('hint');
-  var W = 1, H = 1, DPR = 1;
-
-  function size() {
-    DPR = Math.min(2, window.devicePixelRatio || 1);
-    W = Math.round(host.clientWidth * DPR); H = Math.round(host.clientHeight * DPR);
-    canvas.width = W; canvas.height = H;
-  }
-
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function clock(min) { min = ((Math.round(min) % 1440) + 1440) % 1440; return pad(Math.floor(min / 60)) + ':' + pad(min % 60); }
-  function phase(alt, am) {
-    if (alt < -18) return 'night';
-    if (alt < -6)  return am ? 'before dawn' : 'after dusk';
-    if (alt < -0.8) return 'blue hour';
-    if (alt < 6)   return 'golden hour';
-    return alt > 45 ? 'high sun' : 'daylight';
-  }
-
-  var pinned = params.get('t');                         // ?t=19:30 pins the clock
-  var target = null, shown = null, scrubbing = false;
-  var day0 = midnight(Date.now()), rs = riseSet(day0);
-
-  function nowMin() {
-    if (pinned && /^\d\d:\d\d$/.test(pinned)) return +pinned.slice(0, 2) * 60 + +pinned.slice(3);
-    return (Date.now() - day0) / 60000;
-  }
-
-  host.addEventListener('pointermove', function (e) {
-    var r = host.getBoundingClientRect();
-    target = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * 1440;
-    scrubbing = true;
+  // ----- Safari trackpad pinch arrives as gesture events
+  let gT0 = 0;
+  addEventListener('gesturestart', e => { e.preventDefault(); gT0 = T; });
+  addEventListener('gesturechange', e => {
+    e.preventDefault(); if (reduce.matches) return;
+    go(gT0 + Math.log(e.scale) / Math.log(A[Math.max(0, Math.floor(z)) % N].f), 0.08);
   });
-  host.addEventListener('pointerleave', function () { scrubbing = false; });
-  host.addEventListener('pointercancel', function () { scrubbing = false; });
+  addEventListener('gestureend', e => { e.preventDefault(); if (reduce.matches) { if (Math.abs(Math.log(e.scale)) > 0.2) step(e.scale > 1 ? 1 : -1); } else snapT(Math.sign(T - gT0)); });
 
-  var visible = true;
-  new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(host);
-
-  var lastText = '';
-  function frame(ts) {
-    requestAnimationFrame(frame);
-    if (!visible) return;
-    if (Date.now() - day0 >= DAY) { day0 = midnight(Date.now()); rs = riseSet(day0); }
-
-    var goal = scrubbing ? target : nowMin();
-    if (shown == null) shown = goal;
-    shown += (goal - shown) * (REDUCED ? 1 : 0.12);
-
-    var info = draw(ctx, W, H, day0 + shown * 60000, { tick: ts, dpr: DPR });
-    document.documentElement.setAttribute('data-sky', info.day ? 'day' : 'night');
-    dot.setAttribute('cx', (3 + 26 * (shown / 1440)).toFixed(2));
-
-    var am = shown < 720;
-    var text = '<span class="now">Fethiye · ' + clock(shown) + '</span> · ' + phase(info.alt, am) +
-      ' · sun ' + Math.abs(Math.round(info.alt)) + '° ' + (info.alt >= 0 ? 'up' : 'down') +
-      (rs.rise != null ? ' · rises ' + clock(rs.rise) + ', sets ' + clock(rs.set) : '');
-    if (text !== lastText) { readout.innerHTML = text; lastText = text; }
-    hint.textContent = scrubbing ? 'Let go to come back to now' : 'Drag across the sky to move through the day';
-  }
-
-  window.addEventListener('resize', size);
-  size();
-  requestAnimationFrame(frame);
-
-  /* ==================================================================
-     THE LEDGER
-     ================================================================== */
-  var fmt = new Intl.NumberFormat('en-US');
-  document.getElementById('ledger').innerHTML = SEASONS.map(function (s) {
-    if (!s.start) {
-      return '<tr><td>' + s.n + '</td><td class="soon">' + s.product + '</td>' +
-        '<td class="soon">not started</td><td class="soon">0</td><td class="soon">$0</td><td class="soon">0</td></tr>';
+  // ----- touch: drag up to zoom in, pinch to zoom with your fingers
+  const pts = new Map(); let g = null, dragged = false;
+  const pinchDist = () => { const p = [...pts.values()]; return Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y); };
+  stage.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse') return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    g = { T0: T, y0: e.clientY, d0: pts.size === 2 ? pinchDist() : 0, lt: performance.now(), lT: T, vel: 0 };
+    dragged = false;
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!pts.has(e.pointerId) || !g) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    let nt;
+    if (pts.size >= 2 && g.d0) nt = g.T0 + Math.log(pinchDist() / g.d0) / Math.log(A[Math.max(0, Math.floor(z)) % N].f);
+    else if (pts.size === 1) { const dy = g.y0 - e.clientY; if (Math.abs(dy) > 8) dragged = true; nt = g.T0 + dy / (H * 0.9); }
+    else return;
+    if (pts.size >= 2) dragged = true;
+    const now = performance.now(), dt = Math.max(1, now - g.lt);
+    g.vel = 0.7 * g.vel + 0.3 * ((nt - g.lT) / dt * 1000); g.lt = now; g.lT = nt;
+    if (!reduce.matches) go(nt, pts.size >= 2 ? 0.08 : 0.1);
+    else T = nt;
+  });
+  const up = e => {
+    if (!pts.has(e.pointerId)) return;
+    pts.delete(e.pointerId);
+    if (pts.size) { const p = [...pts.values()][0]; g = { T0: T, y0: p.y, d0: 0, lt: performance.now(), lT: T, vel: 0 }; return; }
+    if (g && dragged) {
+      if (reduce.matches) { const dz = T - g.T0; T = g.T0; if (Math.abs(dz) > 0.05) step(Math.sign(dz)); }
+      else { const proj = T + g.vel * 0.12; snapT(Math.sign(proj - Math.round(g.T0)) || 0); }
     }
-    var d = Math.floor((Date.now() - Date.parse(s.start)) / DAY) + 1;
-    var day = d > s.days ? 'done' : d + ' of ' + s.days;
-    return '<tr><td>' + s.n + '</td><td>' + s.product + '</td><td>' + day + '</td><td>' + fmt.format(s.users) +
-      '</td><td>$' + fmt.format(s.revenue) + '</td><td>' + fmt.format(s.hours) + '</td></tr>';
-  }).join('');
-  var live = SEASONS.filter(function (s) { return s.start; }).pop();
-  if (live) {
-    var dd = Math.floor((Date.now() - Date.parse(live.start)) / DAY) + 1;
-    document.getElementById('s1-status').textContent = 'Season ' + live.n + ' · ' + (dd > live.days ? 'finished' : 'day ' + dd + ' of ' + live.days);
-  }
+    g = null;
+  };
+  stage.addEventListener('pointerup', up);
+  stage.addEventListener('pointercancel', up);
+
+  // ----- click anywhere: one level deeper; click the readout: back to 1x
+  stage.addEventListener('click', e => {
+    if (dragged) { dragged = false; return; }
+    if (e.target.closest('a')) return;
+    const sel = getSelection(); if (sel && String(sel).length) return;
+    if (e.target.closest('.zi')) viaKey = true;
+    step(1);
+  });
+  mag.addEventListener('click', () => { if (Math.round(T) === 0) step(1); else go(0); });
+
+  addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key, ae = document.activeElement, ctl = ae && (ae.tagName === 'A' || ae.tagName === 'BUTTON');
+    let act = 0;
+    if (k === 'ArrowDown' || k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey && !ctl) || (k === 'Enter' && !ctl)) act = 1;
+    else if (k === 'ArrowUp' || k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace' || (k === ' ' && e.shiftKey && !ctl)) act = -1;
+    else if (k === 'Escape' || k === 'Home') { e.preventDefault(); viaKey = true; go(0); return; }
+    else if (k === 'End') { e.preventDefault(); viaKey = true; go(Math.floor(Math.round(T) / N) * N + N - 1); return; }
+    if (act) { e.preventDefault(); viaKey = true; step(act); }
+  });
+
+  // keyboard focus on a pixel: a viewfinder drawn around it, whole-pixel exact
+  document.addEventListener('focusin', e => {
+    const i = e.target.matches('.zi, .px') ? lv.findIndex(l => l.contains(e.target)) : -1;
+    if (i < 0 || !e.target.matches(':focus-visible') || z !== T) { ring.classList.remove('on'); return; }
+    const a = A[i], g = i ? 5 : 7;
+    ring.style.transform = `translate(${a.x + ox - g}px,${a.y + oy - g}px)`;
+    ring.style.width = ring.style.height = a.s + 2 * g + 'px';
+    ring.classList.add('on');
+  });
+  document.addEventListener('focusout', () => ring.classList.remove('on'));
+
+  let rz = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { measure(); render(z); }); });
+
+  measure(); render(z); settle();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); render(z); });
+  if (doc.classList.contains('intro')) setTimeout(() => doc.classList.remove('intro'), 1600);
 })();
 </script>
 </body>

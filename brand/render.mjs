@@ -1,37 +1,27 @@
-// Saves every .asset in brand/kit.html as a PNG at its exact size.
+// Renders every artboard in brand/banners.html to an exact-size PNG.
 //   npm i -g playwright && node brand/render.mjs
-// Serves the repo root itself, since the kit borrows the sky from index.html.
+// li, yt and og are frames of ../index.html, so they always match the site.
 import { chromium } from 'playwright';
-import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const types = { '.html': 'text/html', '.svg': 'image/svg+xml', '.png': 'image/png' };
-const server = createServer(async (req, res) => {
-  try {
-    const file = path.join(root, decodeURIComponent(new URL(req.url, 'http://x').pathname));
-    if (!file.startsWith(root)) throw new Error('outside root');
-    res.writeHead(200, { 'content-type': types[path.extname(file)] || 'text/plain' });
-    res.end(await readFile(file));
-  } catch { res.writeHead(404); res.end(); }
-}).listen(0);
-const port = server.address().port;
+const brand = path.dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 2700, height: 1600 }, deviceScaleFactor: 1 });
+const errs = [];
+p.on('pageerror', e => errs.push(e.message));
+p.on('request', r => { if (!/^(file|data):/.test(r.url())) errs.push('external request ' + r.url()); });
+await p.goto(`file://${brand}/banners.html`);
+await p.waitForTimeout(1500);
 
-const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 2700, height: 1600 }, deviceScaleFactor: 1 });
-await page.goto(`http://localhost:${port}/brand/kit.html`);
-await page.waitForSelector('body[data-ready]');
-await page.evaluate(() => document.fonts.ready);
-
-for (const el of await page.$$('.asset')) {
-  const id = await el.getAttribute('id');
-  const transparent = await el.evaluate(e => e.hasAttribute('data-transparent'));
-  const out = id === 'og' ? path.join(root, 'og.png') : path.join(root, 'brand', `${id}.png`);
-  await el.screenshot({ path: out, omitBackground: transparent });
-  console.log('saved', path.relative(root, out));
+for (const id of ['li', 'yt', 'avatar', 'og', 'thumb']) {
+  const out = id === 'og' ? path.join(brand, '..', 'og.png') : path.join(brand, `${id}.png`);
+  await (await p.$('#' + id)).screenshot({ path: out });
+  console.log('saved', path.relative(path.join(brand, '..'), out));
 }
+await p.evaluate(() => { document.documentElement.style.background = 'transparent'; document.body.style.background = 'transparent'; });
+await (await p.$('#watermark')).screenshot({ path: path.join(brand, 'watermark.png'), omitBackground: true });
+console.log('saved brand/watermark.png');
 
-await browser.close();
-server.close();
+if (errs.length) console.log('errors:', errs.join(' | '));
+await b.close();

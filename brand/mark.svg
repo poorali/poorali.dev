@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="512" height="512">
-  <title>Nima Poorali: the sun on the horizon, which is also a playhead on a timeline</title>
-  <path d="M3 19h26" stroke="#0B0D10" stroke-width="2.4" stroke-linecap="round"/>
-  <circle cx="13" cy="19" r="6" fill="#FF5F3D"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="512" height="512" role="img" aria-label="Nima Poorali">
+  <rect width="16" height="16" fill="#0a0a0a"/>
+  <path d="M3 12V4h3.5A3.5 3.5 0 0 1 10 7.5V12H8V7.5a1.5 1.5 0 0 0-3 0V12z" fill="#f3f3f0" fill-opacity=".6"/>
+  <rect x="11" y="10" width="2" height="2" fill="#f3f3f0"/>
 </svg>

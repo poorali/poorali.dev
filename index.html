@@ -3,460 +3,549 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Nima Poorali — Frontend architect, design systems</title>
-<meta name="description" content="Frontend architect and design systems consultant. Web Components across Angular and React, in Nx monorepos.">
-<meta name="color-scheme" content="dark">
+<title>Nima Poorali · AI products, built in Fethiye</title>
+<meta name="description" content="I turn founder ideas into AI products people pay for, and show how on YouTube. Product engineer in Fethiye, Türkiye.">
 <link rel="canonical" href="https://poorali.dev/">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://poorali.dev/">
 <meta property="og:site_name" content="Nima Poorali">
-<meta property="og:title" content="Nima Poorali — Frontend architect, design systems">
-<meta property="og:description" content="Eleven years drawn as one unbroken line. One revolution per year.">
+<meta property="og:title" content="Nima Poorali · AI products, built in Fethiye">
+<meta property="og:description" content="I turn founder ideas into AI products people pay for, and show how on YouTube.">
 <meta property="og:image" content="https://poorali.dev/og.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A spiral of eleven concentric hand-drawn rings on near-black, one revolution per year since 2015, with the current year picked out in orange. Overlaid: I optimise for year three.">
+<meta property="og:image:alt" content="The sky over Fethiye at golden hour: an orange sun touching a flat sea, hills on the left. Nima Poorali, AI products, built in Fethiye.">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nima Poorali — Frontend architect, design systems">
-<meta name="twitter:description" content="Eleven years drawn as one unbroken line. One revolution per year.">
+<meta name="twitter:title" content="Nima Poorali · AI products, built in Fethiye">
+<meta name="twitter:description" content="I turn founder ideas into AI products people pay for, and show how on YouTube.">
 <meta name="twitter:image" content="https://poorali.dev/og.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D10'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23FF5F3D'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0B0D10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0D10'/%3E%3Cpath d='M5 19h22' stroke='%23E8EAED' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='13' cy='19' r='6' fill='%23FF5F3D'/%3E%3C/svg%3E">
 
 <style>
   :root {
-    --bg:     #0B0D10;
-    --name:   #E8EAED;
-    --slogan: #8A919D;
-    --email:  #79808B;
-    --sig:    #575E69;
-    --accent: 255,95,61;
-    --hair:   rgba(201,207,216,0.10);
-    --mono:   ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-    --sans:   "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --ink:    #0B0D10;
+    --paper:  #E8EAED;
+    --mute:   #8A919D;
+    --faint:  #575E69;
+    --hair:   rgba(201,207,216,0.12);
+    --accent: #FF5F3D;
+    --fg:     #E8EAED;            /* text over the sky, flipped by the sun */
+    --fg-dim: rgba(232,234,237,0.62);
+    --mono:   ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --sans:   "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --pad:    clamp(16px, 3.2vw, 44px);
   }
+  :root[data-sky="day"] { --fg: #0B0D10; --fg-dim: rgba(11,13,16,0.62); }
 
   * { box-sizing: border-box; }
-
-  html, body {
-    margin: 0; padding: 0; height: 100%;
-    background: var(--bg);
-    overflow: hidden;
-  }
+  html, body { margin: 0; padding: 0; background: var(--ink); }
   body {
-    font-family: var(--mono);
+    font-family: var(--sans);
+    color: var(--paper);
     -webkit-font-smoothing: antialiased;
-    color: var(--slogan);
-    cursor: crosshair;
+    overflow-x: hidden;
   }
+  a { color: inherit; }
 
-  #stage { position: fixed; inset: 0; z-index: 0; }
-  #stage canvas { display: block; width: 100%; height: 100%; }
-
-  #scrim {
-    position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background:
-      radial-gradient(46% 30% at 50% 45%, rgba(11,13,16,0.92) 0%, rgba(11,13,16,0.66) 52%, rgba(11,13,16,0) 100%),
-      linear-gradient(to bottom, rgba(11,13,16,0.78) 0%, rgba(11,13,16,0) 16%, rgba(11,13,16,0) 66%, rgba(11,13,16,0.88) 96%);
+  /* ---------------------------------------------------------------- sky */
+  #sky {
+    position: relative;
+    height: 100vh; height: 100svh;
+    min-height: 520px;
+    touch-action: pan-y;
+    cursor: ew-resize;
+    color: var(--fg);
+    transition: color .6s;
   }
+  #sky canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-  #page {
-    position: fixed; inset: 0; z-index: 2;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: clamp(18px, 3.2vw, 44px);
-    gap: clamp(14px, 2vw, 26px);
+  .over {
+    position: absolute; inset: 0;
+    display: grid; grid-template-rows: auto 1fr auto;
+    padding: var(--pad);
     pointer-events: none;
   }
-  #page a { pointer-events: auto; }
+  .over a { pointer-events: auto; }
 
-  header {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    gap: 20px;
-    border-top: 1px solid var(--hair);
-    padding-top: clamp(12px, 1.6vw, 18px);
+  header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .lockup { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .lockup svg { width: 34px; height: 34px; flex: none; overflow: visible; }
+  .lockup .rule { stroke: currentColor; transition: stroke .6s; }
+  .lockup b {
+    font-weight: 500; font-size: 15px; letter-spacing: 0.02em;
   }
-  .id-name {
-    font-family: var(--sans); font-weight: 500;
-    font-size: clamp(15px, 1.35vw, 20px);
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--name); line-height: 1;
-  }
-  .id-role {
-    margin-top: 9px;
-    font-size: clamp(10px, 0.78vw, 12px);
-    letter-spacing: 0.13em; text-transform: uppercase;
-    color: var(--email);
-  }
-  .id-mail {
-    font-size: clamp(10px, 0.82vw, 13px);
-    letter-spacing: 0.07em; color: var(--slogan);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201,207,216,0.16);
-    padding-bottom: 3px; white-space: nowrap;
-    transition: color .25s, border-color .25s;
-  }
-  .id-mail:hover { color: rgb(var(--accent)); border-color: rgba(255,95,61,0.5); }
+  nav { display: flex; gap: clamp(14px, 2.4vw, 28px); font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  nav a { text-decoration: none; opacity: .72; transition: opacity .2s; }
+  nav a:hover { opacity: 1; }
 
-  main {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
+  .hero { align-self: center; margin-top: -12vh; }
+  h1 {
+    margin: 0; max-width: 15ch;
+    font-weight: 400;
+    font-size: clamp(32px, 5.4vw, 76px);
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+    text-wrap: balance;
   }
-  .slogan {
-    font-family: var(--sans); font-weight: 300;
-    font-size: clamp(26px, 5.1vw, 68px);
-    letter-spacing: -0.015em; line-height: 1.06;
-    color: var(--name); margin: 0;
+  .hero p {
+    margin: clamp(14px, 2vw, 24px) 0 0;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-dim); line-height: 1.9;
   }
-  .sub {
-    margin: clamp(16px, 2vw, 26px) 0 0;
-    font-size: min(12.5px, 2.55vw);
-    letter-spacing: 0.11em; text-transform: uppercase;
-    color: #A2AAB5; line-height: 2.15;
-  }
-  .sub span { display: block; white-space: nowrap; }
 
-  footer {
-    border-top: 1px solid var(--hair);
-    padding-top: clamp(12px, 1.6vw, 18px);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: clamp(14px, 3vw, 48px);
-    font-size: clamp(9.5px, 0.72vw, 11.5px);
-    letter-spacing: 0.1em;
+  .readout {
+    display: flex; justify-content: space-between; align-items: end; gap: 16px;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; line-height: 1.8;
+    color: rgba(232,234,237,0.55);   /* always on the dark of the sea */
   }
+  .readout .now { color: var(--paper); }
+  .readout .hint { text-align: right; }
+
+  /* ---------------------------------------------------------- the page */
+  section, footer { padding: clamp(64px, 11vw, 140px) var(--pad) 0; max-width: 1180px; margin: 0 auto; }
   .lbl {
-    display: block; margin-bottom: 9px;
-    color: var(--sig);
-    text-transform: uppercase; letter-spacing: 0.18em;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--faint); margin: 0 0 clamp(22px, 3vw, 36px);
+    display: flex; gap: 14px; align-items: center;
+  }
+  .lbl::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+  h2 {
+    margin: 0 0 clamp(28px, 4vw, 52px); max-width: 22ch;
+    font-weight: 400; font-size: clamp(26px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.02em;
   }
 
-  /* the one line of text that changes — what was happening at the ring
-     under the cursor */
-  #caption { color: var(--email); line-height: 1.95; min-height: 2.6em; }
-  #caption .yr { color: rgb(var(--accent)); }
-  #caption .who { color: var(--name); }
-  #caption .hint { color: var(--sig); }
+  .shows { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 64px); }
+  .show { border-top: 1px solid var(--hair); padding-top: 20px; }
+  .show h3 { margin: 0 0 10px; font-weight: 500; font-size: 20px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+  .show h3 i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .show h3 i.day { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .show p { margin: 0; color: var(--mute); font-size: 16px; line-height: 1.6; max-width: 44ch; }
+  .meta { margin-top: 18px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; color: var(--faint); line-height: 1.9; }
+  .meta b { font-weight: 400; color: var(--paper); }
 
-  .sig {
-    text-align: right; color: var(--sig);
-    line-height: 1.95; white-space: nowrap;
-  }
-  .sig b { color: var(--email); font-weight: 400; font-variant-numeric: tabular-nums; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 14px 12px 14px 0; border-bottom: 1px solid var(--hair); white-space: nowrap; }
+  th { font-weight: 400; color: var(--faint); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+  td { color: var(--paper); }
+  td.soon { color: var(--faint); }
+  .scroll-x { overflow-x: auto; }
+  .note { margin: 18px 0 0; color: var(--faint); font-size: 14px; line-height: 1.6; max-width: 60ch; }
 
-  @media (max-width: 700px) {
-    footer { grid-template-columns: 1fr; gap: 14px; }
-    .sig { text-align: left; white-space: normal; }
-    header { flex-direction: column; align-items: flex-start; gap: 12px; }
-    .sub { font-size: 10px; letter-spacing: 0.09em; }
-    .sub span { white-space: normal; max-width: 32ch; margin: 0 auto; }
-    body { cursor: default; }
+  .founders p { margin: 0; color: var(--mute); font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; max-width: 46ch; }
+  .cta {
+    display: inline-flex; align-items: center; gap: 12px; margin-top: 28px;
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
+    text-decoration: none; color: var(--paper);
+    border-bottom: 1px solid rgba(255,95,61,0.5); padding-bottom: 4px;
   }
+  .cta:hover { color: var(--accent); }
+
+  footer { padding-bottom: clamp(40px, 6vw, 72px); }
+  .links { display: flex; flex-wrap: wrap; gap: 10px 28px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.04em; }
+  .links a { text-decoration: none; color: var(--paper); }
+  .links a:hover { color: var(--accent); }
+  .links span { color: var(--faint); }
+  .colophon { margin-top: clamp(40px, 6vw, 72px); border-top: 1px solid var(--hair); padding-top: 18px; color: var(--faint); font-family: var(--mono); font-size: 11.5px; line-height: 1.9; letter-spacing: 0.03em; }
+
+  @media (max-width: 720px) {
+    nav { display: none; }
+    .shows { grid-template-columns: 1fr; }
+    .readout { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .readout .hint { text-align: left; }
+    .hero { margin-top: -16vh; }
+    .hero p { font-size: 11px; }
+  }
+
+  /* embed=1 hides everything but the sky; the brand kit draws with it */
+  :root[data-embed] .over, :root[data-embed] main, :root[data-embed] footer { display: none; }
 </style>
 </head>
 
 <body>
 
-<div id="stage"></div>
-<div id="scrim"></div>
+<div id="sky" aria-label="The sky over Fethiye right now. Drag across it to move through the day.">
+  <canvas></canvas>
+  <div class="over">
+    <header>
+      <a class="lockup" href="/" aria-label="Nima Poorali">
+        <!-- the mark: the sun on the horizon, which is also a playhead on a
+             timeline. Here the dot sits at the time of day in Fethiye. -->
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path class="rule" d="M3 19h26" stroke-width="2.4" stroke-linecap="round"/>
+          <circle id="mark-dot" cx="13" cy="19" r="6" fill="#FF5F3D"/>
+        </svg>
+        <b>Nima Poorali</b>
+      </a>
+      <nav>
+        <a href="#shows">Shows</a>
+        <a href="#numbers">Numbers</a>
+        <a href="#founders">Founders</a>
+      </nav>
+    </header>
 
-<div id="page">
-
-  <header>
-    <div>
-      <div class="id-name">Nima Poorali</div>
-      <div class="id-role">Frontend architect &middot; design systems</div>
+    <div class="hero">
+      <h1>I turn founder ideas into AI products people pay for, and show how on YouTube.</h1>
+      <p>Product engineer · Fethiye, Türkiye</p>
     </div>
-    <a class="id-mail" href="mailto:hi@poorali.dev">hi@poorali.dev</a>
-  </header>
 
-  <main>
-    <h1 class="slogan">I optimise for year three</h1>
-    <p class="sub">
-      <span>Design systems that outlive their host framework</span>
-      <span>Angular &amp; React &middot; Web Components &middot; Nx monorepos</span>
-    </p>
-  </main>
+    <div class="readout" aria-live="polite">
+      <div id="readout"><span class="now">Fethiye</span></div>
+      <div class="hint" id="hint">Drag across the sky to move through the day</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section id="shows">
+    <div class="lbl">01 · The shows</div>
+    <h2>Two kinds of video, one coast.</h2>
+    <div class="shows">
+      <article class="show">
+        <h3><i></i>Built in Fethiye</h3>
+        <p>One real product, from idea to first revenue in 30 days of evenings and weekends. The finale shows the honest numbers.</p>
+        <div class="meta">Every two weeks · 12 to 20 minutes<br><b id="s1-status">Season 1 · in pre-production</b></div>
+      </article>
+      <article class="show">
+        <h3><i class="day"></i>Tested in Fethiye</h3>
+        <p>New AI tools and gadgets, tried in real life on the coast with my friend from the breakfast café. He gets the final word.</p>
+        <div class="meta">In the weeks between · 8 to 10 minutes<br><b>Episode 1 · in pre-production</b></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="numbers">
+    <div class="lbl">02 · Open numbers</div>
+    <h2>Every season runs in public.</h2>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>Season</th><th>Product</th><th>Day</th><th>Users</th><th>Revenue</th><th>Build hours</th></tr></thead>
+        <tbody id="ledger"></tbody>
+      </table>
+    </div>
+    <p class="note">Users, revenue and hours are updated as each season runs, including the weeks that go badly.</p>
+  </section>
+
+  <section id="founders" class="founders">
+    <div class="lbl">03 · Founders</div>
+    <h2>Have an idea and no product team?</h2>
+    <p>From January 2027 I take on one founder at a time and build their AI product end to end, from the first call to paying users. Eleven years of shipping web products and one company co-founded sit behind it.</p>
+    <a class="cta" href="mailto:hi@poorali.dev?subject=Founder%20list">Join the founder list · hi@poorali.dev</a>
+  </section>
 
   <footer>
-    <div>
-      <span class="lbl" id="span-lbl">One revolution per year</span>
-      <div id="caption"><span class="hint">Move across the rings.</span></div>
+    <div class="lbl">Elsewhere</div>
+    <div class="links">
+      <a href="https://www.linkedin.com/in/poorali/">LinkedIn</a>
+      <span>YouTube · soon</span>
+      <a href="https://github.com/poorali">GitHub</a>
+      <a href="mailto:hi@poorali.dev">hi@poorali.dev</a>
     </div>
-    <div class="sig">
-      <span class="lbl">The drawing</span>
-      <div><b id="s-paths">1</b> path &middot; <b id="s-lifts">0</b> lifts &middot; <b id="s-segs">0</b> segments</div>
-      <div><b id="s-days">0</b> days &middot; no <span style="font-variant-numeric:tabular-nums">Math.random()</span></div>
+    <div class="colophon">
+      The sky at the top of this page is Fethiye's, right now, worked out from the clock and 36.62° N, 29.12° E.
+      The orange dot is the sun, and the same dot is the logo.<br>
+      One file · no images · no requests · no Math.random()
     </div>
   </footer>
 
-</div>
+</main>
 
 <script>
 (function () {
   'use strict';
 
-  var BG      = '#0B0D10';
-  var LINE    = '201,207,216';
-  var ACCENT  = '255,95,61';
-  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   /* ==================================================================
-     THE ONLY INPUT IS TIME
-     Nothing here is random. Every value below is a function of a date,
-     which is why the drawing is the same for everyone and changes only
-     because the world moves on. It is one day longer tomorrow.
+     THE SEASONS — the only thing to edit as the show runs.
+     start: 'YYYY-MM-DD' once filming starts, null until then.
      ================================================================== */
-
-  var DAY   = 86400000;
-  var BIRTH = Date.UTC(2015, 6, 1);        // Jul 2015 — the first line of the career
-  var NOW   = Date.now();
-  var AHEAD = 3;                            // year three, drawn but not yet lived
-
-  function ym(y, m) { return Date.UTC(y, m - 1, 1); }
-
-  /* Overlaps are the interesting part: where two engagements run at once
-     their frequencies beat against each other and the rings interfere. */
-  var WORK = [
-    { at: 'Dariche Zehn',   role: 'Frontend Developer',            from: ym(2015, 7),  to: ym(2017, 9),  w: 0.55, f: 3 },
-    { at: 'Karaweb',        role: 'Full Stack Developer',          from: ym(2017, 9),  to: ym(2021, 6),  w: 0.78, f: 5 },
-    { at: 'Upwork',         role: 'Freelance · 100% success',      from: ym(2021, 1),  to: ym(2025, 6),  w: 0.62, f: 9 },
-    { at: 'QuadVentures',   role: 'Lead Web Developer',            from: ym(2022, 1),  to: ym(2023, 12), w: 0.98, f: 4 },
-    { at: 'Aligned Voyage', role: 'Co-founder',                    from: ym(2023, 12), to: ym(2025, 7),  w: 1.00, f: 6 },
-    { at: 'mvneco',         role: 'Frontend Consultant · design systems', from: ym(2025, 7), to: null, w: 1.00, f: 2 }
+  var SEASONS = [
+    { n: 1, product: 'Announced soon', start: null, days: 30, users: 0, revenue: 0, hours: 0 }
   ];
 
-  var endOf = function (e) { return e.to === null ? NOW : e.to; };
+  /* ==================================================================
+     THE PLACE — Fethiye. Türkiye keeps UTC+3 all year, no DST.
+     ================================================================== */
+  var LAT = 36.62, LON = 29.12, TZ = 3;
+  var DAY = 86400000, RAD = Math.PI / 180;
+  var ACCENT = [255, 95, 61];
+  var params = new URLSearchParams(location.search);
+  var EMBED = params.has('embed');
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (EMBED) document.documentElement.setAttribute('data-embed', '');
 
-  // every boundary leaves a scar in the ring, the way a hard winter does
-  var SCARS = [];
-  WORK.forEach(function (e) { SCARS.push(e.from); SCARS.push(endOf(e)); });
-
-  var SPAN_MS   = (NOW - BIRTH) + AHEAD * 365.25 * DAY;
-  var LIVED_MS  = NOW - BIRTH;
-  var TOTAL_YRS = SPAN_MS / (365.25 * DAY);
-  var T_NOW     = LIVED_MS / SPAN_MS;                 // where the present sits, 0..1
-  var DAYS      = Math.round(LIVED_MS / DAY);
-
-  /* deterministic grain — a hash of the day index, never Math.random */
+  /* deterministic grain, a hash of an integer. Never Math.random. */
   function grain(n) {
     n = Math.imul(n ^ (n >>> 15), 0x2C1B3C6D);
     n = Math.imul(n ^ (n >>> 12), 0x297A2D39);
     return ((n ^ (n >>> 15)) >>> 0) / 4294967296;
   }
 
-  function activeAt(ms) {
-    return WORK.filter(function (e) { return ms >= e.from && ms <= endOf(e); });
+  /* ==================================================================
+     WHERE THE SUN IS — low-precision solar position, good to a fraction
+     of a degree, which is far finer than a pixel here.
+     ================================================================== */
+  function sun(ms) {
+    var d = ms / DAY - 10957.5;                         // days from J2000
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var ra = Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L));
+    var dec = Math.asin(Math.sin(e) * Math.sin(L));
+    var gmst = ((18.697374558 + 24.06570982441908 * d) % 24 + 24) % 24;
+    var H = (gmst * 15 + LON) * RAD - ra;
+    var lat = LAT * RAD;
+    var alt = Math.asin(Math.sin(lat) * Math.sin(dec) + Math.cos(lat) * Math.cos(dec) * Math.cos(H));
+    var az = Math.atan2(-Math.sin(H), Math.cos(lat) * Math.tan(dec) - Math.sin(lat) * Math.cos(H));
+    return { alt: alt / RAD, az: ((az / RAD) + 360) % 360 };
+  }
+
+  // local midnight in Fethiye for the day containing ms
+  function midnight(ms) { var l = ms + TZ * 3600000; return l - (l % DAY + DAY) % DAY - TZ * 3600000; }
+
+  function riseSet(day0) {
+    var rise = null, set = null, prev = sun(day0).alt;
+    for (var m = 1; m <= 1440; m++) {
+      var a = sun(day0 + m * 60000).alt;
+      if (prev < -0.833 && a >= -0.833) rise = m;
+      if (prev >= -0.833 && a < -0.833) set = m;
+      prev = a;
+    }
+    return { rise: rise, set: set };
   }
 
   /* ==================================================================
-     THE LINE
+     WHAT COLOUR THE SKY IS — keyed on the sun's altitude. Muted on
+     purpose: the only saturated thing on the page is the sun.
      ================================================================== */
-  var stage  = document.getElementById('stage');
-  var canvas = document.createElement('canvas');
-  var ctx    = canvas.getContext('2d');
-  stage.appendChild(canvas);
+  var KEYS = [
+    // alt,  zenith,     horizon,    sea
+    [-18, '#07090C', '#0B0D10', '#07090B'],
+    [-10, '#0A0E18', '#151B2A', '#090C12'],
+    [ -4, '#18203A', '#3A4466', '#121829'],
+    [ -1, '#29355A', '#9A6A6A', '#1B2238'],
+    [  2, '#3E5078', '#E39468', '#2A3550'],
+    [  6, '#5D7398', '#EDB98A', '#3C4F6E'],
+    [ 12, '#7E98BC', '#E7D3B6', '#4F6A86'],
+    [ 25, '#8EAACB', '#E3DED3', '#5F7E98'],
+    [ 60, '#9DBADA', '#ECE9E1', '#6B8CA6']
+  ];
+  function hex(h) { return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
+  KEYS.forEach(function (k) { k[1] = hex(k[1]); k[2] = hex(k[2]); k[3] = hex(k[3]); });
+  function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+  function rgb(c, a) { return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + (a == null ? 1 : a) + ')'; }
 
-  var W = 1, H = 1, DPR = 1;
-  var CX = 0, CY = 0, RAD = 1, ASPECT = 1;
-  var R0 = 0.11, R1 = 1.10;                 // inner core -> just past the frame
-  var pts = null, SEGS = 0;
-
-  function build() {
-    var n = Math.max(2600, Math.round(TOTAL_YRS * 360 * 1.7));
-    var out = new Float32Array(n * 2);
-    var gap = (R1 - R0) / TOTAL_YRS;        // one ring
-
-    for (var i = 0; i < n; i++) {
-      var t = i / (n - 1);
-      var ms = BIRTH + t * SPAN_MS;
-      var th = -Math.PI / 2 + t * TOTAL_YRS * Math.PI * 2;
-
-      // what was happening, and how loudly
-      var m = 0, live = activeAt(ms);
-      for (var k = 0; k < live.length; k++) {
-        m += live[k].w * Math.sin(th * live[k].f + live[k].from / DAY);
+  function palette(alt) {
+    if (alt <= KEYS[0][0]) return { zen: KEYS[0][1], hor: KEYS[0][2], sea: KEYS[0][3] };
+    for (var i = 1; i < KEYS.length; i++) {
+      if (alt <= KEYS[i][0]) {
+        var t = (alt - KEYS[i - 1][0]) / (KEYS[i][0] - KEYS[i - 1][0]);
+        return { zen: mix(KEYS[i - 1][1], KEYS[i][1], t), hor: mix(KEYS[i - 1][2], KEYS[i][2], t), sea: mix(KEYS[i - 1][3], KEYS[i][3], t) };
       }
-      if (live.length > 1) m *= 0.72;       // two at once reads as beating, not shouting
-
-      // scars at every transition
-      for (var s = 0; s < SCARS.length; s++) {
-        var d = Math.abs(ms - SCARS[s]) / DAY;
-        if (d < 30) m += 2.0 * (1 - d / 30);
-      }
-
-      // wood grain, and a future that is projected rather than known
-      m += (grain(Math.round(ms / DAY)) - 0.5) * 0.55;
-      if (t > T_NOW) m *= Math.max(0, 1 - (t - T_NOW) / (1 - T_NOW) * 0.85);
-
-      var r = (R0 + (R1 - R0) * t + m * gap * 0.30) * RAD;
-      out[i * 2]     = CX + Math.cos(th) * r * ASPECT;
-      out[i * 2 + 1] = CY + Math.sin(th) * r;
     }
-
-    pts = out;
-    SEGS = n - 1;
-  }
-
-  /* One beginPath, one moveTo, N lineTo, one stroke. The colour changes
-     along the line via a radial gradient rather than by starting a new
-     path — which is the only reason "1 path / 0 lifts" stays true. */
-  var lifts = 0;
-
-  function strokeUpTo(count) {
-    var g = ctx.createRadialGradient(CX, CY, R0 * RAD, CX, CY, R1 * RAD);
-
-    // Gradient position and elapsed time are the same number here, because
-    // radius grows linearly with t. So one year is exactly 1/TOTAL_YRS wide,
-    // and the accent has to span a whole revolution — any narrower and the
-    // ring's own wobble carries it in and out of the band.
-    var yr = 1 / TOTAL_YRS, last = -1;
-    function stop(p, c) {
-      p = Math.max(0, Math.min(1, p));
-      if (p <= last) p = Math.min(1, last + 0.0005);
-      last = p;
-      g.addColorStop(p, c);
-    }
-
-    stop(0,                  'rgba(' + LINE + ',0.34)');   // 2015, long ago and quiet
-    stop(0.34,               'rgba(' + LINE + ',0.52)');
-    stop(T_NOW - yr,         'rgba(' + LINE + ',0.76)');
-    stop(T_NOW - yr * 0.55,  'rgba(' + ACCENT + ',0.55)'); // the current year lights up
-    stop(T_NOW - 0.004,      'rgba(' + ACCENT + ',0.95)');
-    stop(T_NOW + 0.006,      'rgba(' + LINE + ',0.34)');   // drawn, not yet lived
-    stop(1,                  'rgba(' + LINE + ',0.12)');
-
-    ctx.strokeStyle = g;
-    ctx.lineWidth = Math.max(1, DPR * 1.15);
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-
-    var moves = 0;
-    ctx.beginPath();
-    ctx.moveTo(pts[0], pts[1]); moves++;
-    for (var i = 1; i < count; i++) ctx.lineTo(pts[i * 2], pts[i * 2 + 1]);
-    ctx.stroke();
-
-    // a lift is a moveTo that isn't the initial placement of the pen
-    lifts = moves - 1;
+    var k = KEYS[KEYS.length - 1];
+    return { zen: k[1], hor: k[2], sea: k[3] };
   }
 
   /* ==================================================================
-     HOVER — the rings are the CV
+     DRAW — the whole scene for one moment. Exposed so the brand kit can
+     paint banners with the same hand: window.sky.draw(ctx, w, h, ms, o).
      ================================================================== */
-  var hoverT = -1;
+  function hills(x, w, hy, h) {
+    // a headland to the west, made of a few fixed waves. Not a survey of
+    // the coast, just its shape: steep from the sea, a long ridge inland.
+    var u = (x / w - 0.86) / 0.14;
+    if (u < 0) return hy;
+    function bump(c, wd, a) { var z = (u - c) / wd; return a * Math.exp(-z * z); }
+    var rise = (1 - Math.pow(1 - Math.min(1, u), 2)) * 0.10 + bump(0.75, 0.22, 0.05)
+             + Math.sin(u * 19.0 + 0.7) * 0.003 + Math.sin(u * 53.0) * 0.0015;
+    return hy - rise * Math.min(h, w * 0.75);
+  }
 
-  function markNow() {
-    var i = Math.round(T_NOW * SEGS);
-    var x = pts[i * 2], y = pts[i * 2 + 1];
-    var pulse = REDUCED ? 0.6 : 0.45 + 0.25 * Math.sin(Date.now() / 620);
-    ctx.fillStyle = 'rgba(' + ACCENT + ',' + pulse.toFixed(3) + ')';
+  function draw(ctx, w, h, ms, o) {
+    o = o || {};
+    var s = sun(ms), alt = s.alt, p = palette(alt);
+    var hy = Math.round(h * (o.horizon || 0.70));
+    var tick = o.tick || 0;
+
+    // sky
+    var g = ctx.createLinearGradient(0, 0, 0, hy);
+    g.addColorStop(0, rgb(p.zen));
+    g.addColorStop(0.7, rgb(mix(p.zen, p.hor, 0.55)));
+    g.addColorStop(1, rgb(p.hor));
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, hy + 1);
+
+    // stars, faded in as the sky darkens; fixed positions from the hash
+    var night = Math.max(0, Math.min(1, (-alt - 5) / 9));
+    if (night > 0) {
+      var n = Math.round(w * hy / 5200);
+      for (var i = 0; i < n; i++) {
+        var sx = grain(i * 3 + 1) * w, sy = Math.pow(grain(i * 3 + 2), 1.6) * hy * 0.92;
+        var b = grain(i * 3 + 3);
+        var tw = REDUCED ? 1 : 0.75 + 0.25 * Math.sin(tick / 900 + i);
+        ctx.fillStyle = 'rgba(232,234,237,' + (night * (0.18 + b * 0.55) * tw).toFixed(3) + ')';
+        var r = b > 0.93 ? 1.3 : 0.8;
+        ctx.fillRect(sx, sy, r * (o.dpr || 1), r * (o.dpr || 1));
+      }
+    }
+
+    // the sun. Viewer faces south: east on the left, west on the right.
+    var sr = Math.max(5, Math.min(w, h) * (o.sun || 0.022));
+    var sx = w * (o.sunX != null ? o.sunX : 0.5 + (s.az - 180) / 300);
+    var sy = hy - (alt / 62) * (hy - h * 0.08);
+    if (o.sunY != null) sy = hy - o.sunY * (hy - h * 0.08);
+    if (alt > -2 || o.sunY != null) {
+      var glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr * 9);
+      glow.addColorStop(0, rgb(ACCENT, 0.30 * Math.max(0.25, 1 - Math.max(0, alt) / 30)));
+      glow.addColorStop(1, rgb(ACCENT, 0));
+      ctx.fillStyle = glow;
+      ctx.fillRect(sx - sr * 9, sy - sr * 9, sr * 18, sr * 18);
+      ctx.fillStyle = rgb(ACCENT);
+      ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // sea
+    var sg = ctx.createLinearGradient(0, hy, 0, h);
+    sg.addColorStop(0, rgb(mix(p.sea, p.hor, 0.18)));
+    sg.addColorStop(0.55, rgb(mix(p.sea, [11, 13, 16], 0.5)));
+    sg.addColorStop(1, '#0B0D10');
+    ctx.fillStyle = sg;
+    ctx.fillRect(0, hy, w, h - hy);
+
+    // the sun's path on the water: short strokes, wider with depth
+    if (sx > -sr && sx < w + sr && (alt > -1 || o.sunY != null)) {
+      var str = Math.max(0, Math.min(1, (alt + 1) / 8));
+      if (o.sunY != null) str = 1;
+      var rows = Math.round((h - hy) / Math.max(3, (o.dpr || 1) * 3.2));
+      var frame = REDUCED ? 0 : Math.floor(tick / 380);
+      for (var r2 = 0; r2 < rows; r2++) {
+        var t = r2 / rows, y = hy + 2 + t * (h - hy - 2);
+        var spread = sr * (0.9 + t * 7);
+        var k = grain(r2 * 7919 + frame * 104729);
+        var len = spread * (0.25 + k * 0.9);
+        var off = (grain(r2 * 31 + frame * 7) - 0.5) * spread * 1.3;
+        ctx.fillStyle = rgb(mix(ACCENT, p.hor, 0.25 + t * 0.4), (str * (1 - t) * (0.25 + k * 0.6)).toFixed(3));
+        ctx.fillRect(sx + off - len / 2, y, len, Math.max(1, (o.dpr || 1) * 1.2));
+      }
+    }
+
+    // the hills, drawn over the sun so it can rise from behind them
+    var land = mix(p.sea, p.zen, 0.35);
+    ctx.fillStyle = rgb(mix(land, [11, 13, 16], 0.25));
     ctx.beginPath();
-    ctx.arc(x, y, Math.max(2.4, DPR * 2.6), 0, Math.PI * 2);
+    ctx.moveTo(w * 0.85, hy + 1);
+    for (var x = Math.floor(w * 0.85); x <= w + 2; x += 2) ctx.lineTo(x, hills(x, w, hy, h));
+    ctx.lineTo(w + 2, hy + 1);
+    ctx.closePath();
     ctx.fill();
+
+    // the horizon line itself
+    ctx.fillStyle = alt > 3 ? 'rgba(11,13,16,0.18)' : 'rgba(232,234,237,0.16)';
+    ctx.fillRect(0, hy, w * 0.87, Math.max(1, o.dpr || 1));
+
+    return { alt: alt, az: s.az, sx: sx, sy: sy, hy: hy, day: alt > 3 };
   }
 
-  function markHover() {
-    if (hoverT < 0) return;
-    var i = Math.round(hoverT * SEGS);
-    var x = pts[i * 2], y = pts[i * 2 + 1];
-    ctx.strokeStyle = 'rgba(' + LINE + ',0.55)';
-    ctx.lineWidth = Math.max(1, DPR);
-    ctx.beginPath();
-    ctx.arc(x, y, Math.max(5, DPR * 6), 0, Math.PI * 2);
-    ctx.stroke();
-  }
-
-  var capEl = document.getElementById('caption');
-  var MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-  function caption(t) {
-    if (t < 0) { capEl.innerHTML = '<span class="hint">Move across the rings.</span>'; return; }
-    var ms = BIRTH + t * SPAN_MS;
-    var d  = new Date(ms);
-    var yr = d.getUTCFullYear(), mo = MONTH[d.getUTCMonth()];
-
-    if (ms > NOW) {
-      var into = ((ms - NOW) / (365.25 * DAY));
-      capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span> &middot; ' +
-        '<span class="hint">year ' + (into < 1 ? 'one' : into < 2 ? 'two' : 'three') +
-        ' from here &mdash; drawn, not yet lived</span>';
-      return;
-    }
-
-    var live = activeAt(ms);
-    if (!live.length) { capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span>'; return; }
-
-    capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span> &middot; ' +
-      live.map(function (e) {
-        return '<span class="who">' + e.at + '</span> <span class="hint">' + e.role + '</span>';
-      }).join(' &nbsp;+&nbsp; ');
-  }
-
-  function onMove(e) {
-    var dx = (e.clientX * DPR - CX) / ASPECT, dy = e.clientY * DPR - CY;
-    var rn = Math.sqrt(dx * dx + dy * dy) / RAD;
-    var t  = (rn - R0) / (R1 - R0);
-    hoverT = (t < 0 || t > 1) ? -1 : t;
-    caption(hoverT);
-  }
+  window.sky = { draw: draw, sun: sun, palette: palette, LAT: LAT, LON: LON, TZ: TZ };
+  if (EMBED) return;
 
   /* ==================================================================
-     FRAME
+     THE PAGE
      ================================================================== */
-  var progress = 0, start = 0;
+  var host = document.getElementById('sky');
+  var canvas = host.querySelector('canvas');
+  var ctx = canvas.getContext('2d');
+  var dot = document.getElementById('mark-dot');
+  var readout = document.getElementById('readout');
+  var hint = document.getElementById('hint');
+  var W = 1, H = 1, DPR = 1;
 
-  function frame(ts) {
-    if (!start) start = ts;
-    progress = REDUCED ? 1 : Math.min(1, (ts - start) / 7200);
-    var e = 1 - Math.pow(1 - progress, 2.4);          // ease out
-
-    ctx.fillStyle = BG;
-    ctx.fillRect(0, 0, W, H);
-
-    var count = Math.max(2, Math.round(e * SEGS));
-    strokeUpTo(count);
-    if (progress >= 1) { markNow(); markHover(); }
-
-    sSegs.textContent = fmt.format(count - 1);
-    sLifts.textContent = String(lifts);
-
-    requestAnimationFrame(frame);
-  }
-
-  /* ==================================================================
-     SIZE + BOOT
-     ================================================================== */
-  var fmt    = new Intl.NumberFormat('en-US');
-  var sSegs  = document.getElementById('s-segs');
-  var sLifts = document.getElementById('s-lifts');
-
-  function measure() {
+  function size() {
     DPR = Math.min(2, window.devicePixelRatio || 1);
-    W = Math.max(1, Math.round(window.innerWidth  * DPR));
-    H = Math.max(1, Math.round(window.innerHeight * DPR));
+    W = Math.round(host.clientWidth * DPR); H = Math.round(host.clientHeight * DPR);
     canvas.width = W; canvas.height = H;
-    CX = W / 2; CY = H * 0.47;
-    RAD = H / 2;
-    ASPECT = Math.max(1, W / H);
-    build();
   }
 
-  measure();
-  document.getElementById('s-days').textContent = fmt.format(DAYS);
-  document.getElementById('span-lbl').textContent =
-    'One revolution per year · ' + new Date(BIRTH).getUTCFullYear() +
-    ' → ' + new Date(BIRTH + SPAN_MS).getUTCFullYear();
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function clock(min) { min = ((Math.round(min) % 1440) + 1440) % 1440; return pad(Math.floor(min / 60)) + ':' + pad(min % 60); }
+  function phase(alt, am) {
+    if (alt < -18) return 'night';
+    if (alt < -6)  return am ? 'before dawn' : 'after dusk';
+    if (alt < -0.8) return 'blue hour';
+    if (alt < 6)   return 'golden hour';
+    return alt > 45 ? 'high sun' : 'daylight';
+  }
 
-  window.addEventListener('resize', function () { measure(); });
-  window.addEventListener('pointermove', onMove, { passive: true });
-  window.addEventListener('pointerleave', function () { hoverT = -1; caption(-1); });
+  var pinned = params.get('t');                         // ?t=19:30 pins the clock
+  var target = null, shown = null, scrubbing = false;
+  var day0 = midnight(Date.now()), rs = riseSet(day0);
 
+  function nowMin() {
+    if (pinned && /^\d\d:\d\d$/.test(pinned)) return +pinned.slice(0, 2) * 60 + +pinned.slice(3);
+    return (Date.now() - day0) / 60000;
+  }
+
+  host.addEventListener('pointermove', function (e) {
+    var r = host.getBoundingClientRect();
+    target = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * 1440;
+    scrubbing = true;
+  });
+  host.addEventListener('pointerleave', function () { scrubbing = false; });
+  host.addEventListener('pointercancel', function () { scrubbing = false; });
+
+  var visible = true;
+  new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(host);
+
+  var lastText = '';
+  function frame(ts) {
+    requestAnimationFrame(frame);
+    if (!visible) return;
+    if (Date.now() - day0 >= DAY) { day0 = midnight(Date.now()); rs = riseSet(day0); }
+
+    var goal = scrubbing ? target : nowMin();
+    if (shown == null) shown = goal;
+    shown += (goal - shown) * (REDUCED ? 1 : 0.12);
+
+    var info = draw(ctx, W, H, day0 + shown * 60000, { tick: ts, dpr: DPR });
+    document.documentElement.setAttribute('data-sky', info.day ? 'day' : 'night');
+    dot.setAttribute('cx', (3 + 26 * (shown / 1440)).toFixed(2));
+
+    var am = shown < 720;
+    var text = '<span class="now">Fethiye · ' + clock(shown) + '</span> · ' + phase(info.alt, am) +
+      ' · sun ' + Math.abs(Math.round(info.alt)) + '° ' + (info.alt >= 0 ? 'up' : 'down') +
+      (rs.rise != null ? ' · rises ' + clock(rs.rise) + ', sets ' + clock(rs.set) : '');
+    if (text !== lastText) { readout.innerHTML = text; lastText = text; }
+    hint.textContent = scrubbing ? 'Let go to come back to now' : 'Drag across the sky to move through the day';
+  }
+
+  window.addEventListener('resize', size);
+  size();
   requestAnimationFrame(frame);
+
+  /* ==================================================================
+     THE LEDGER
+     ================================================================== */
+  var fmt = new Intl.NumberFormat('en-US');
+  document.getElementById('ledger').innerHTML = SEASONS.map(function (s) {
+    if (!s.start) {
+      return '<tr><td>' + s.n + '</td><td class="soon">' + s.product + '</td>' +
+        '<td class="soon">not started</td><td class="soon">0</td><td class="soon">$0</td><td class="soon">0</td></tr>';
+    }
+    var d = Math.floor((Date.now() - Date.parse(s.start)) / DAY) + 1;
+    var day = d > s.days ? 'done' : d + ' of ' + s.days;
+    return '<tr><td>' + s.n + '</td><td>' + s.product + '</td><td>' + day + '</td><td>' + fmt.format(s.users) +
+      '</td><td>$' + fmt.format(s.revenue) + '</td><td>' + fmt.format(s.hours) + '</td></tr>';
+  }).join('');
+  var live = SEASONS.filter(function (s) { return s.start; }).pop();
+  if (live) {
+    var dd = Math.floor((Date.now() - Date.parse(live.start)) / DAY) + 1;
+    document.getElementById('s1-status').textContent = 'Season ' + live.n + ' · ' + (dd > live.days ? 'finished' : 'day ' + dd + ' of ' + live.days);
+  }
 })();
 </script>
 </body>

@@ -2,106 +2,78 @@
 
 One page. One file. No build, no dependencies, no network requests.
 
-**Eleven years drawn as a single unbroken line.** One revolution per year,
-spiralling outward from July 2015, with three more rings drawn past the
-present — the years being built toward, drawn but not yet lived.
+**The sky over Fethiye, right now.** The top of the page is worked out from
+the clock and 36.62° N, 29.12° E: where the sun is, what colour the sky is,
+whether the stars are out, and the sun's path on the water. Drag across it to
+move through the day; let go and it eases back to now.
 
-![Eleven years drawn as one unbroken line — 1 path, 0 lifts, no Math.random()](og.png)
+![The sky over Fethiye at golden hour, with the line: I turn founder ideas into AI products people pay for.](og.png)
 
 ## Run it
 
 ```bash
-open index.html
+open index.html            # now
+open "index.html?t=18:20"  # pinned to a time of day, handy for screenshots
 ```
 
 ## What it is
 
-A tree-ring section of a career. The line starts at the origin in Jul 2015 and
-turns once per year, its radius growing linearly with time, so every revolution
-is exactly one year and the ring spacing is even.
+The home of a product engineer who builds AI products on camera, from Fethiye.
+Below the sky, three short sections:
 
-What makes each ring look different is the work being done that year. For every
-sample along the line, the engagements active on that date each contribute a
-sine wave at their own frequency and amplitude:
+1. **The shows.** *Built in Fethiye*: one real product from idea to first
+   revenue in 30 days of evenings and weekends. *Tested in Fethiye*: new AI
+   tools and gadgets tried in real life with a friend from the breakfast café.
+2. **Open numbers.** Every season's users, revenue and build hours, in public.
+3. **Founders.** A waitlist for one-founder-at-a-time product builds from
+   January 2027.
 
-| Years | Engagement | Weight | Freq |
-|---|---|---|---|
-| Jul 2015 – Sep 2017 | Dariche Zehn — Frontend Developer | 0.55 | 3 |
-| Sep 2017 – Jun 2021 | Karaweb — Full Stack Developer | 0.78 | 5 |
-| Jan 2021 – Jun 2025 | Upwork — Freelance, 100% success | 0.62 | 9 |
-| Jan 2022 – Dec 2023 | QuadVentures — Lead Web Developer | 0.98 | 4 |
-| Dec 2023 – Jul 2025 | Aligned Voyage — Co-founder | 1.00 | 6 |
-| Jul 2025 – now | mvneco — Frontend Consultant, design systems | 1.00 | 2 |
+## The mark is the sun
 
-**Overlaps are the interesting part.** Where two engagements run concurrently
-their frequencies beat against each other, and the rings for those years are
-visibly more agitated than the years with a single focus. Every start and end
-date also leaves a scar — a brief radial spike, the way a hard winter shows in
-real wood.
+The logo is an orange dot on a line: the sun touching the horizon, and also a
+playhead on a video timeline. In the header the dot moves along its line with
+the time of day in Fethiye, so the logo is a clock too. The only saturated
+colour anywhere on the page is that dot and the sun it stands for.
 
-Month boundaries are inferred where only years were known. Correct them in the
-`WORK` array and the drawing changes accordingly.
+## Updating the numbers
 
-## Why "1 path · 0 lifts" is true
+Edit the `SEASONS` array at the top of the script. Set `start` to the first
+filming day (`'2026-11-02'`) and the page counts the days itself, in the
+ledger and on the show card. Users, revenue and hours are typed in by hand.
 
-The whole ring structure is a single `beginPath()`, one `moveTo`, ~8,600
-`lineTo`, one `stroke()`. The pen is never lifted.
-
-Colour still varies along the line — quiet in the early years, accent through
-the current year, faint for the years ahead — because that is done with a
-**radial gradient as the stroke style**, not by starting a new path. Since the
-radius grows linearly with time, gradient position and elapsed time are the
-same number, so a colour stop at `t` lands exactly on the ring for that date.
-
-The accent band has to span a full revolution. Any narrower and the ring's own
-wobble carries it in and out of the band, which shows up as orange flecks
-instead of a continuous glowing ring.
-
-`lifts` is measured — it counts `moveTo` calls minus the initial placement of
-the pen — rather than hardcoded.
-
-## The only input is time
-
-There is no `Math.random()` anywhere in the file. Every value derives from a
-date: the wobble from the engagement dates, the wood grain from a hash of the
-day index. Consequences:
-
-- The drawing is identical for every visitor, on every machine.
-- It is **one day longer tomorrow.** The composition genuinely grows.
-- The accent marks today, so the bright ring moves outward over time.
-
-## Hover
-
-The rings are the CV. Moving across them maps radius back to a date and prints
-what was happening then — `Mar 2023 · QuadVentures Lead Web Developer +
-Upwork Freelance`. There is no other navigation, and no other copy.
-
-## Reduced motion
-
-`prefers-reduced-motion` skips the 7-second draw-on and renders the completed
-line immediately. Everything else, including hover, still works.
-
-This is also how to screenshot the finished state, since headless Chrome
-throttles `requestAnimationFrame` and would otherwise capture the drawing
-part-way through:
-
-```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --force-prefers-reduced-motion --window-size=1600,1000 --screenshot=out.png "file://$PWD/index.html"
+```js
+var SEASONS = [
+  { n: 1, product: 'Announced soon', start: null, days: 30, users: 0, revenue: 0, hours: 0 }
+];
 ```
 
-## Continuity with the brand
+## How the sky works
 
-Same dark palette as `../brand` — background `#0B0D10`, line `201,207,216`,
-accent `255,95,61` — so the site and the LinkedIn banners read as one system.
+- **Sun position:** a low-precision solar formula (accurate to a fraction of a
+  degree), Türkiye's fixed UTC+3, no DST. Sunrise and sunset are found by
+  scanning the day minute by minute for the −0.833° crossing.
+- **Colour:** nine keyframes of zenith, horizon and sea colour keyed on the
+  sun's altitude, from deep night to high sun. Muted on purpose.
+- **Text:** flips dark when the sun is more than 3° up and light otherwise.
+- **The view faces south:** the sun rises on the left, sets on the right
+  behind a headland to the west. The headland is a shape, not a survey.
+- **No `Math.random()`:** stars and the glitter on the water come from an
+  integer hash, so every visitor sees the same sky at the same minute.
+- `prefers-reduced-motion` stops the twinkle and shimmer and makes scrubbing
+  snap instead of ease.
+
+`window.sky.draw(ctx, w, h, ms, opts)` paints the scene for any moment. The
+brand kit uses it, which is how the banners and the site share one hand.
+
+## Brand kit
+
+Logos, the YouTube banner and profile picture, the LinkedIn banner, two
+thumbnail templates and `og.png` all live in [`brand/`](brand/). See
+[brand/README.md](brand/README.md).
 
 ## Deploying
 
-One static file, zero dependencies. Cloudflare Pages, Netlify, GitHub Pages or
-a plain bucket all work.
-
-**Live at https://poorali.dev** since 2026-08-01. `index.html` and `og.png` are
-uploaded as-is — there is no build step, so deploying a change is copying the
-file. HTTP redirects to HTTPS and `www` resolves.
+One static file plus `og.png`. Upload both as-is; there is no build step.
 
 > **`.dev` is on the browser HSTS preload list.** There is no `http://` fallback: without
 > a valid certificate for the domain the site is unreachable in *every* browser, even
@@ -111,6 +83,3 @@ file. HTTP redirects to HTTPS and `www` resolves.
 > ```bash
 > openssl s_client -connect poorali.dev:443 -servername poorali.dev </dev/null
 > ```
->
-> A missing per-domain cert shows up as TLS alert 80 / "no peer certificate available",
-> while a shared host keeps serving its own wildcard cert instead.

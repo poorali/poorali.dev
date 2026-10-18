@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Brand kit · Nima Poorali</title>
+<!--
+  Every banner here is painted by the site's own sky (index.html?embed),
+  at a fixed time of day, so the channels and the site share one hand.
+  Serve the repo root and open /brand/kit.html; brand/render.mjs saves
+  each .asset as a PNG at its exact size.
+-->
+<style>
+  :root { --ink: #0B0D10; --paper: #E8EAED; --mute: rgba(232,234,237,0.62); --accent: #FF5F3D;
+          --sans: "Inter", "SF Pro Display", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+          --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+  body { margin: 0; padding: 40px; background: #1a1d22; color: var(--paper); font-family: var(--sans); }
+  h2 { font: 500 13px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #8A919D; margin: 48px 0 14px; }
+  .asset { position: relative; overflow: hidden; background: var(--ink); }
+  .asset canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .asset .t { position: absolute; }
+  .mark { display: block; }
+  .on-day { color: var(--ink); }
+  iframe { position: absolute; width: 10px; height: 10px; left: -100px; border: 0; }
+</style>
+</head>
+<body>
+
+<iframe id="src" src="../index.html?embed=1"></iframe>
+
+<!-- ============================================================ marks -->
+<h2>YouTube profile · 800 × 800</h2>
+<div class="asset" id="yt-avatar" style="width:800px;height:800px">
+  <svg class="t" viewBox="0 0 32 32" style="inset:0;width:800px;height:800px">
+    <rect width="32" height="32" fill="#0B0D10"/>
+    <path d="M6 18.2h20" stroke="#E8EAED" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="13" cy="18.2" r="4.6" fill="#FF5F3D"/>
+  </svg>
+</div>
+
+<h2>YouTube watermark · 150 × 150, transparent</h2>
+<div class="asset" id="yt-watermark" data-transparent style="width:150px;height:150px;background:transparent">
+  <svg class="t" viewBox="0 0 32 32" style="inset:0;width:150px;height:150px">
+    <path d="M3 19h26" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="13" cy="19" r="6" fill="#FF5F3D"/>
+  </svg>
+</div>
+
+<!-- ========================================================== banners -->
+<h2>YouTube banner · 2560 × 1440 (safe area 1546 × 423 in the middle)</h2>
+<div class="asset" id="yt-banner" data-at="18:05" data-horizon="0.585" data-sunx="0.70" data-sun="0.013" style="width:2560px;height:1440px">
+  <canvas></canvas>
+  <div class="t" style="left:507px;top:508px;width:1546px;height:423px;display:flex;flex-direction:column;justify-content:center">
+    <div style="display:flex;align-items:center;gap:22px">
+      <svg viewBox="0 0 32 32" style="width:64px;height:64px;overflow:visible"><path d="M3 19h26" stroke="#E8EAED" stroke-width="2.4" stroke-linecap="round"/><circle cx="13" cy="19" r="6" fill="#FF5F3D"/></svg>
+      <div style="font:500 44px/1 var(--sans);letter-spacing:.01em">Nima Poorali</div>
+    </div>
+    <div style="font:400 76px/1.06 var(--sans);letter-spacing:-.025em;margin-top:30px;max-width:22ch">AI products, built in Fethiye.</div>
+    <div style="font:400 24px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:30px">Built in Fethiye · Tested in Fethiye · new videos every week</div>
+  </div>
+</div>
+
+<h2>LinkedIn banner · 1584 × 396 (photo covers the bottom left)</h2>
+<div class="asset" id="li-banner" data-at="18:10" data-horizon="0.80" data-sunx="0.90" data-sun="0.028" style="width:1584px;height:396px">
+  <canvas></canvas>
+  <div class="t" style="left:520px;right:220px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center">
+    <div style="font:400 44px/1.08 var(--sans);letter-spacing:-.022em;max-width:20ch">I turn founder ideas into AI products people pay for.</div>
+    <div style="font:400 15px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:22px">Building in public from Fethiye · poorali.dev</div>
+  </div>
+</div>
+
+<h2>Open Graph · 1200 × 630</h2>
+<div class="asset" id="og" data-at="18:08" data-horizon="0.72" data-sunx="0.80" data-sun="0.026" style="width:1200px;height:630px">
+  <canvas></canvas>
+  <div class="t" style="left:64px;top:56px;display:flex;align-items:center;gap:14px">
+    <svg viewBox="0 0 32 32" style="width:40px;height:40px;overflow:visible"><path d="M3 19h26" stroke="#E8EAED" stroke-width="2.4" stroke-linecap="round"/><circle cx="13" cy="19" r="6" fill="#FF5F3D"/></svg>
+    <div style="font:500 24px/1 var(--sans)">Nima Poorali</div>
+  </div>
+  <div class="t" style="left:64px;top:150px;font:400 60px/1.05 var(--sans);letter-spacing:-.026em;max-width:15ch">I turn founder ideas into AI products people pay for.</div>
+</div>
+
+<!-- ======================================================= thumbnails -->
+<h2>Thumbnail · Built in Fethiye (after dark: it's built on evenings and weekends)</h2>
+<div class="asset" id="thumb-built" data-at="20:40" data-horizon="0.74" style="width:1280px;height:720px">
+  <canvas></canvas>
+  <div class="t" style="left:64px;top:56px;font:500 22px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:12px">
+    <span style="width:16px;height:16px;border-radius:50%;background:var(--accent);display:inline-block"></span>Built in Fethiye · S1
+  </div>
+  <div class="t" style="left:60px;top:150px;font:600 150px/0.95 var(--sans);letter-spacing:-.045em">Day 1<span style="color:#575E69"> /30</span></div>
+  <div class="t" style="left:64px;top:330px;font:500 52px/1.1 var(--sans);letter-spacing:-.02em;max-width:17ch">Episode title goes here</div>
+  <div class="t" style="right:64px;bottom:56px;font:500 26px/1 var(--mono);letter-spacing:.06em;color:var(--accent)">$0 revenue</div>
+</div>
+
+<h2>Thumbnail · Tested in Fethiye (Saturday morning)</h2>
+<div class="asset on-day" id="thumb-tested" data-at="10:30" data-horizon="0.70" data-sunx="0.84" data-sun="0.05" style="width:1280px;height:720px">
+  <canvas></canvas>
+  <div class="t" style="left:64px;top:56px;font:500 22px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:12px">
+    <span style="width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 3px var(--accent);display:inline-block"></span>Tested in Fethiye
+  </div>
+  <div class="t" style="left:60px;top:150px;font:600 112px/0.98 var(--sans);letter-spacing:-.04em;max-width:11ch">We tested an AI drone</div>
+  <div class="t" style="left:64px;bottom:56px;font:500 26px/1 var(--mono);letter-spacing:.06em;color:var(--paper)">Verdict: ☐ yes ☐ no</div>
+</div>
+
+<script>
+  // local time in Fethiye (UTC+3) on a fixed day, so the kit never drifts
+  function at(hhmm) { var p = hhmm.split(':'); return Date.UTC(2026, 9, 18, +p[0] - 3, +p[1]); }
+  document.getElementById('src').addEventListener('load', function () {
+    var sky = this.contentWindow.sky;
+    document.querySelectorAll('.asset[data-at]').forEach(function (el) {
+      var c = el.querySelector('canvas'), w = el.offsetWidth, h = el.offsetHeight;
+      c.width = w; c.height = h;
+      sky.draw(c.getContext('2d'), w, h, at(el.dataset.at), {
+        horizon: el.dataset.horizon ? +el.dataset.horizon : undefined,
+        sunX: el.dataset.sunx ? +el.dataset.sunx : undefined,
+        sun: el.dataset.sun ? +el.dataset.sun : undefined,
+        tick: 0, dpr: 1
+      });
+    });
+    document.body.setAttribute('data-ready', '');
+  });
+</script>
+</body>
+</html>

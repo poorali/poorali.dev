@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nima Poorali assets</title>
+<style>
+:root{
+  --paper:#f3f3f0;
+  --ink:#0a0a0a;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Display",Inter,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --text:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#8a8a86}
+body{padding:40px;display:flex;flex-direction:column;align-items:flex-start;gap:40px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.art{position:relative;flex:none;overflow:hidden;background:var(--bg,var(--ink))}
+
+/* Banners are not typeset here. Each one is a still frame of index.html, mid-zoom, rendered in an iframe:
+   ?z= picks the depth, ?still hides the readout and frames the square dead centre.
+   The site is laid out at 640 x 640 (its one-column layout, where a headline is 14% of its page)
+   and scaled up with CSS zoom, so the text is drawn at full resolution. */
+.art iframe{position:absolute;left:0;border:0;width:640px;height:640px;pointer-events:none}
+
+/* LinkedIn 1584 x 396: the first zoom. The square is centred, clear of the profile photo at the lower left */
+#li{width:1584px;height:396px;--bg:var(--paper)}
+/* YouTube 2560 x 1440: from "Nima Poorali" into "Two kinds of video". The square sits in the 1546 x 423 safe area */
+#yt{width:2560px;height:1440px}
+/* Link preview 1200 x 630: the first zoom; the square also survives a centred 630 x 630 crop */
+#og{width:1200px;height:630px;--bg:var(--paper)}
+
+/* the mark: lowercase n at 60% and the square at full strength, on a 16 grid */
+#avatar{width:800px;height:800px}
+#avatar svg{position:absolute;left:40px;top:40px;width:720px;height:720px}
+/* watermark: the square alone, paper with an ink keyline, transparent around it */
+#watermark{width:150px;height:150px;background:transparent}
+#watermark svg{position:absolute;left:0;top:0;width:150px;height:150px}
+
+/* Thumbnail 1280 x 720 (a template). The photo is the full stop: a 504 square sitting on the title's baseline.
+   The title ends at it, right-aligned, and wraps on its own if it runs long */
+#thumb{width:1280px;height:720px}
+#thumb .photo{position:absolute;left:704px;top:108px;width:504px;height:504px;background:var(--paper);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;font:400 24px/1 var(--text)}
+#thumb .photo span{opacity:.6}
+#thumb .head{position:absolute;left:0;top:0;width:627px;margin:0;color:var(--paper);text-align:right;text-wrap:balance;
+  font:500 88px/.98 var(--sans);letter-spacing:-.045em}
+#thumb .head .day{opacity:.6}
+#thumb .base{display:inline-block;width:0;height:0;vertical-align:baseline}
+</style>
+</head>
+<body>
+  <div id="li" class="art" aria-label="LinkedIn banner" data-z="0.66"></div>
+
+  <div id="yt" class="art" aria-label="YouTube banner" data-z="1.514"></div>
+
+  <div id="avatar" class="art" aria-label="Profile picture">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 12V4h3.5A3.5 3.5 0 0 1 10 7.5V12H8V7.5a1.5 1.5 0 0 0-3 0V12z" fill="#f3f3f0" fill-opacity=".6"/><rect x="11" y="10" width="2" height="2" fill="#f3f3f0"/></svg>
+  </div>
+
+  <div id="og" class="art" aria-label="Link preview" data-z="0.8"></div>
+
+  <div id="watermark" class="art" aria-label="Video watermark">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="6" height="6" fill="#f3f3f0" stroke="#0a0a0a" stroke-width=".7"/></svg>
+  </div>
+
+  <div id="thumb" class="art" aria-label="YouTube thumbnail template">
+    <div class="photo"><span>Photo, 504 × 504</span></div>
+    <p class="head"><span class="day">Day 01/30</span><br>Your title in five&nbsp;words<i class="base"></i></p>
+  </div>
+<script>
+// Frames: one iframe of the site per artboard, scaled to fill its width and centred on its height.
+for (const a of document.querySelectorAll('.art[data-z]')) {
+  const f = document.createElement('iframe'), k = a.offsetWidth / 640;
+  f.src = `../index.html?z=${a.dataset.z}&still`;
+  f.setAttribute('scrolling', 'no'); f.setAttribute('tabindex', '-1'); f.setAttribute('aria-hidden', 'true');
+  f.style.zoom = k;
+  f.style.top = (a.offsetHeight / k - 640) / 2 + 'px'; // CSS zoom also scales this offset
+  a.appendChild(f);
+}
+// Thumbnail: the title's last baseline lands on the photo's bottom edge, a .05 em gap before it.
+function place() {
+  const t = document.getElementById('thumb'), h = t.querySelector('.head'), m = h.querySelector('.base'), p = t.querySelector('.photo');
+  h.style.transform = '';
+  const T = t.getBoundingClientRect(), M = m.getBoundingClientRect(), P = p.getBoundingClientRect();
+  const gap = parseFloat(getComputedStyle(h).fontSize) * .05;
+  const x = Math.round(P.left - gap - M.left), y = Math.round(P.bottom - M.top);
+  h.style.transform = `translate(${x}px,${y}px)`;
+}
+place();
+if (document.fonts) document.fonts.ready.then(place);
+</script>
+</body>
+</html>

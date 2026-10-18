@@ -3,460 +3,466 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Nima Poorali — Frontend architect, design systems</title>
-<meta name="description" content="Frontend architect and design systems consultant. Web Components across Angular and React, in Nx monorepos.">
-<meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://poorali.dev/">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://poorali.dev/">
-<meta property="og:site_name" content="Nima Poorali">
-<meta property="og:title" content="Nima Poorali — Frontend architect, design systems">
-<meta property="og:description" content="Eleven years drawn as one unbroken line. One revolution per year.">
+<title>Nima Poorali</title>
+<meta name="description" content="Nima Poorali, product engineer. I turn founder ideas into AI products people pay for, and show how on YouTube.">
+<meta name="theme-color" content="#f3f3f0">
+<meta property="og:title" content="Nima Poorali">
+<meta property="og:description" content="I turn founder ideas into AI products people pay for, and show how on YouTube.">
 <meta property="og:image" content="https://poorali.dev/og.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A spiral of eleven concentric hand-drawn rings on near-black, one revolution per year since 2015, with the current year picked out in orange. Overlaid: I optimise for year three.">
-
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nima Poorali — Frontend architect, design systems">
-<meta name="twitter:description" content="Eleven years drawn as one unbroken line. One revolution per year.">
-<meta name="twitter:image" content="https://poorali.dev/og.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D10'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23FF5F3D'/%3E%3C/svg%3E">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230a0a0a'/%3E%3Cpath d='M3 12V4h3.5A3.5 3.5 0 0 1 10 7.5V12H8V7.5a1.5 1.5 0 0 0-3 0V12z' fill='%23f3f3f0' fill-opacity='.6'/%3E%3Crect x='11' y='10' width='2' height='2' fill='%23f3f3f0'/%3E%3C/svg%3E">
 <style>
-  :root {
-    --bg:     #0B0D10;
-    --name:   #E8EAED;
-    --slogan: #8A919D;
-    --email:  #79808B;
-    --sig:    #575E69;
-    --accent: 255,95,61;
-    --hair:   rgba(201,207,216,0.10);
-    --mono:   ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-    --sans:   "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  }
+:root{
+  --paper:#f3f3f0;
+  --ink:#0a0a0a;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Display",Inter,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --text:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --pad:clamp(24px,7.5vw,128px);
+  --rs:clamp(12px,.9vw,14px);      /* readout and label size */
+  --gap:clamp(30px,3.4vw,54px);    /* square to label line */
+  --cy:.5;                         /* height of the optical axis */
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
+a:hover{text-decoration-thickness:2px}
+:focus{outline:none}
+:focus-visible{outline:1px solid currentColor;outline-offset:6px}
+.level:focus,.px:focus-visible,.zi:focus-visible{outline:none}
+html.js #mag:focus-visible{outline-offset:-9px}
+#ring{position:fixed;left:0;top:0;z-index:9;border:1px solid #fff;mix-blend-mode:difference;pointer-events:none;display:none}
+#ring.on{display:block}
 
-  * { box-sizing: border-box; }
+/* A level is one zoom depth. Without JS they simply stack. */
+.level{--bg:var(--paper);--fg:var(--ink);background:var(--bg);color:var(--fg)}
+.level.inv{--bg:var(--ink);--fg:var(--paper)}
+html:not(.js) .level:nth-child(even){--bg:var(--ink);--fg:var(--paper)}
+.frame{position:relative;min-height:100vh;min-height:100svh;padding:18vh var(--pad);display:flex;flex-direction:column;justify-content:center}
+.l0 .frame{align-items:center}
+html:not(.js) .l0 .more,html:not(.js) .ro,html:not(.js) .zi{display:none}
 
-  html, body {
-    margin: 0; padding: 0; height: 100%;
-    background: var(--bg);
-    overflow: hidden;
-  }
-  body {
-    font-family: var(--mono);
-    -webkit-font-smoothing: antialiased;
-    color: var(--slogan);
-    cursor: crosshair;
-  }
+.head{font-family:var(--sans);font-weight:500;font-size:clamp(46px,7.2vw,116px);line-height:.98;letter-spacing:-.045em;margin:0;text-wrap:balance}
+.more{margin-top:var(--gap);max-width:34em}
+/* the label line: how far you zoomed to get here, then what this page is */
+.label{font:400 var(--rs)/1.4 var(--text);letter-spacing:.01em;font-variant-numeric:tabular-nums;margin:0 0 clamp(14px,1.6vw,22px);white-space:nowrap}
+.label .t{opacity:.6}
+.ro{margin-right:1.5ch}
+.lead{font-size:clamp(17px,1.55vw,23px);line-height:1.42;letter-spacing:-.01em;margin:0;text-wrap:pretty}
+.lines{list-style:none;padding:0;margin:0;font-size:clamp(17px,1.55vw,23px);line-height:1.42;letter-spacing:-.01em;text-wrap:pretty}
+.lines li{display:grid;grid-template-columns:1.6em 1fr;align-items:baseline;margin:0 0 .75em}
+.lines li:last-child{margin-bottom:0}
+.lines.plain li{grid-template-columns:1fr;margin-bottom:.5em}
+.lines .n{font-size:var(--rs);opacity:.6;font-variant-numeric:tabular-nums}
+.stack{display:block;font:400 var(--rs)/1.5 var(--text);opacity:.6;margin:.3em 0 .35em}
+.mailp{margin-top:.5em}
+.mail{font-family:var(--sans);font-weight:500;font-size:1.32em;letter-spacing:-.025em}
+.links{display:flex;flex-wrap:wrap;gap:8px 24px;margin:clamp(22px,2.4vw,34px) 0 0;padding:0;list-style:none;font:400 var(--rs)/1.4 var(--text)}
+.links .soon{opacity:.6}
+.nw{white-space:nowrap}
 
-  #stage { position: fixed; inset: 0; z-index: 0; }
-  #stage canvas { display: block; width: 100%; height: 100%; }
+/* the pixel: a square full stop exactly as tall as the dot on the i, set on whole pixels by the script */
+.px{display:inline-block;width:.13em;height:.13em;background:currentColor;vertical-align:baseline;margin-left:.05em;cursor:zoom-in}
+.l0 .px{width:8px;height:8px;margin:0}
+.px.ghost{background:transparent}
 
-  #scrim {
-    position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background:
-      radial-gradient(46% 30% at 50% 45%, rgba(11,13,16,0.92) 0%, rgba(11,13,16,0.66) 52%, rgba(11,13,16,0) 100%),
-      linear-gradient(to bottom, rgba(11,13,16,0.78) 0%, rgba(11,13,16,0) 16%, rgba(11,13,16,0) 66%, rgba(11,13,16,0.88) 96%);
-  }
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#mag{display:none}
 
-  #page {
-    position: fixed; inset: 0; z-index: 2;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: clamp(18px, 3.2vw, 44px);
-    gap: clamp(14px, 2vw, 26px);
-    pointer-events: none;
-  }
-  #page a { pointer-events: auto; }
+/* ---------- zoom mode ---------- */
+html.js,html.js body{height:100%;overflow:hidden;overscroll-behavior:none}
+html.js #stage{position:fixed;inset:0;overflow:hidden;touch-action:none;cursor:zoom-in;background:var(--paper);-webkit-tap-highlight-color:transparent}
+html.js .level{position:absolute;left:0;top:0;width:var(--D);height:var(--D);transform-origin:0 0;opacity:0;contain:layout style}
+html.js .frame{position:absolute;display:block;left:calc((var(--D) - var(--W)) / 2);top:calc((var(--D) - var(--H)) / 2);width:var(--W);height:var(--H);min-height:0;padding:0}
+/* desktop: the square sits dead centre; what you read ends at it, what follows hangs from its left edge */
+html.js .head{position:absolute;right:50%;bottom:calc((1 - var(--cy)) * 100%);max-width:calc(50% - var(--pad));text-align:right}
+html.js .l0 .head{right:auto;left:50%}
+html.js .more{position:absolute;left:var(--ax,50%);top:calc(var(--cy) * 100% + var(--gap));width:calc(50% - var(--pad));max-width:36em;margin:0}
+html.js .ro{visibility:hidden}
+html.js a{cursor:pointer}
+/* the readout: one live counter that locks into each page's label line */
+html.js #mag{display:block;position:fixed;left:0;top:0;z-index:10;font:400 var(--rs)/1.4 var(--text);letter-spacing:.01em;font-variant-numeric:tabular-nums;white-space:nowrap;
+  color:#fff;mix-blend-mode:difference;background:none;border:0;margin:0;padding:10px;cursor:zoom-out;-webkit-tap-highlight-color:transparent;will-change:transform}
+html.js #mag.at0{cursor:zoom-in}
+html.js.intro .l0 .more,html.js.intro #mag{animation:in .9s .5s ease both}
+html.still #mag{display:none}
+@keyframes in{from{opacity:0}}
 
-  header {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    gap: 20px;
-    border-top: 1px solid var(--hair);
-    padding-top: clamp(12px, 1.6vw, 18px);
-  }
-  .id-name {
-    font-family: var(--sans); font-weight: 500;
-    font-size: clamp(15px, 1.35vw, 20px);
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--name); line-height: 1;
-  }
-  .id-role {
-    margin-top: 9px;
-    font-size: clamp(10px, 0.78vw, 12px);
-    letter-spacing: 0.13em; text-transform: uppercase;
-    color: var(--email);
-  }
-  .id-mail {
-    font-size: clamp(10px, 0.82vw, 13px);
-    letter-spacing: 0.07em; color: var(--slogan);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201,207,216,0.16);
-    padding-bottom: 3px; white-space: nowrap;
-    transition: color .25s, border-color .25s;
-  }
-  .id-mail:hover { color: rgb(var(--accent)); border-color: rgba(255,95,61,0.5); }
-
-  main {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-  }
-  .slogan {
-    font-family: var(--sans); font-weight: 300;
-    font-size: clamp(26px, 5.1vw, 68px);
-    letter-spacing: -0.015em; line-height: 1.06;
-    color: var(--name); margin: 0;
-  }
-  .sub {
-    margin: clamp(16px, 2vw, 26px) 0 0;
-    font-size: min(12.5px, 2.55vw);
-    letter-spacing: 0.11em; text-transform: uppercase;
-    color: #A2AAB5; line-height: 2.15;
-  }
-  .sub span { display: block; white-space: nowrap; }
-
-  footer {
-    border-top: 1px solid var(--hair);
-    padding-top: clamp(12px, 1.6vw, 18px);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: clamp(14px, 3vw, 48px);
-    font-size: clamp(9.5px, 0.72vw, 11.5px);
-    letter-spacing: 0.1em;
-  }
-  .lbl {
-    display: block; margin-bottom: 9px;
-    color: var(--sig);
-    text-transform: uppercase; letter-spacing: 0.18em;
-  }
-
-  /* the one line of text that changes — what was happening at the ring
-     under the cursor */
-  #caption { color: var(--email); line-height: 1.95; min-height: 2.6em; }
-  #caption .yr { color: rgb(var(--accent)); }
-  #caption .who { color: var(--name); }
-  #caption .hint { color: var(--sig); }
-
-  .sig {
-    text-align: right; color: var(--sig);
-    line-height: 1.95; white-space: nowrap;
-  }
-  .sig b { color: var(--email); font-weight: 400; font-variant-numeric: tabular-nums; }
-
-  @media (max-width: 700px) {
-    footer { grid-template-columns: 1fr; gap: 14px; }
-    .sig { text-align: left; white-space: normal; }
-    header { flex-direction: column; align-items: flex-start; gap: 12px; }
-    .sub { font-size: 10px; letter-spacing: 0.09em; }
-    .sub span { white-space: normal; max-width: 32ch; margin: 0 auto; }
-    body { cursor: default; }
-  }
+/* phones and narrow windows: one column on the margin; the square ends the name wherever the name ends */
+@media (max-width:560px),(max-width:680px) and (min-height:561px){
+  .head{font-size:14vw;line-height:.96}
+  .l0 .px{width:6px;height:6px}
+  html.js .head{left:var(--pad);right:var(--pad);bottom:calc((1 - var(--cy)) * 100% - .13em);max-width:none;text-align:left}
+  html.js .l0 .head{right:auto;left:50%}
+  html.js .more{left:var(--pad);right:var(--pad);width:auto;top:calc(var(--cy) * 100% + 34px)}
+  html.js .l0 .more{left:var(--ax)}
+}
+@media (max-width:560px) and (max-height:620px),(max-width:680px) and (min-height:561px) and (max-height:620px){
+  .head{font-size:min(14vw,8vh)}
+  html.js .more{top:calc(var(--cy) * 100% + 24px)}
+  .label{margin-bottom:10px}
+  .lead,.lines{font-size:15px;line-height:1.38}
+  .lines li{margin-bottom:.5em}
+}
+@media (max-height:560px) and (min-width:561px){
+  .head{font-size:min(7.2vw,13vh)}
+  :root{--gap:18px;--cy:.42}
+  html.js .more{width:calc(50% - 32px)}
+  .label{margin-bottom:8px}
+  .lead,.lines{font-size:14px;line-height:1.36}
+  .lines li{margin-bottom:.4em}
+  .stack{margin:.15em 0 .2em}
+  .links{margin-top:12px}
+}
+@media (max-height:420px) and (min-width:561px){
+  .head{font-size:min(7.2vw,12vh)}
+  :root{--cy:.36;--gap:14px}
+  .lead,.lines{font-size:13px;line-height:1.32}
+  .lines.plain li{margin-bottom:.3em}
+}
+@media (prefers-reduced-motion:reduce){html.js.intro .l0 .more,html.js.intro #mag{animation:none}}
 </style>
 </head>
-
 <body>
-
-<div id="stage"></div>
-<div id="scrim"></div>
-
-<div id="page">
-
-  <header>
-    <div>
-      <div class="id-name">Nima Poorali</div>
-      <div class="id-role">Frontend architect &middot; design systems</div>
+<main id="stage">
+  <section tabindex="-1" class="level l0" aria-label="Start">
+    <div class="frame">
+      <h1 class="sr">Nima Poorali</h1>
+      <div class="head"><span class="px" role="button" tabindex="0" aria-label="Zoom into the square"></span></div>
+      <div class="more" aria-hidden="true">
+        <p class="label"><span class="ro">1×</span><span class="t" id="hint">Zoom into the square</span></p>
+      </div>
     </div>
-    <a class="id-mail" href="mailto:hi@poorali.dev">hi@poorali.dev</a>
-  </header>
+  </section>
 
-  <main>
-    <h1 class="slogan">I optimise for year three</h1>
-    <p class="sub">
-      <span>Design systems that outlive their host framework</span>
-      <span>Angular &amp; React &middot; Web Components &middot; Nx monorepos</span>
-    </p>
-  </main>
-
-  <footer>
-    <div>
-      <span class="lbl" id="span-lbl">One revolution per year</span>
-      <div id="caption"><span class="hint">Move across the rings.</span></div>
+  <section tabindex="-1" class="level" aria-label="Nima Poorali">
+    <div class="frame">
+      <h2 class="head">Nima <span class="nw">Poorali<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">Product engineer</span></p>
+        <p class="lead">I turn founder ideas into AI products people pay&nbsp;for, and show how on&nbsp;YouTube.</p>
+      </div>
     </div>
-    <div class="sig">
-      <span class="lbl">The drawing</span>
-      <div><b id="s-paths">1</b> path &middot; <b id="s-lifts">0</b> lifts &middot; <b id="s-segs">0</b> segments</div>
-      <div><b id="s-days">0</b> days &middot; no <span style="font-variant-numeric:tabular-nums">Math.random()</span></div>
-    </div>
-  </footer>
+  </section>
 
-</div>
+  <section tabindex="-1" class="level" aria-label="Videos">
+    <div class="frame">
+      <h2 class="head">Two kinds of <span class="nw">video<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">YouTube and LinkedIn, soon</span></p>
+        <ol class="lines">
+          <li><span class="n">1</span><span>I build a real AI product from idea to first revenue in 30&nbsp;days of evenings and weekends, with honest numbers.</span></li>
+          <li><span class="n">2</span><span>I test new tech, AI tools and <span class="nw">AI-built</span> gadgets in real life, with a very funny&nbsp;friend.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section tabindex="-1" class="level" aria-label="Background">
+    <div class="frame">
+      <h2 class="head">Since <span class="nw">2015<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">Full stack</span></p>
+        <ul class="lines plain">
+          <li>I&rsquo;ve shipped web products ever since.<span class="stack"><span class="nw">React, Vue, Next.js,</span> <span class="nw">Node, Laravel, TypeScript</span></span></li>
+          <li>I co-founded a SaaS for freelancer collaboration.</li>
+          <li>I&rsquo;ve freelanced for 4.5&nbsp;years, with 100% job success.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section tabindex="-1" class="level" aria-label="Contact">
+    <div class="frame">
+      <h2 class="head">Say <span class="nw">hi<i class="px" aria-hidden="true"></i></span></h2>
+      <button class="sr zi" type="button">Zoom in</button>
+      <div class="more">
+        <p class="label"><span class="ro"></span><span class="t">For founders</span></p>
+        <p class="lead">Building an AI product? Tell me about&nbsp;it.</p>
+        <p class="lead mailp"><a class="mail" href="mailto:hi@poorali.dev">hi@poorali.dev</a></p>
+        <ul class="links">
+          <li><a href="https://www.linkedin.com/in/poorali/" rel="me noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/poorali" rel="me noopener">GitHub</a></li>
+          <li class="soon">YouTube, soon</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+<i id="ring" aria-hidden="true"></i>
+<button id="mag" type="button" aria-label="Not magnified yet. Zoom in"><span id="magv">1×</span></button>
 
 <script>
-(function () {
-  'use strict';
+(() => {
+  const doc = document.documentElement;
+  doc.classList.add('js');
+  const stage = document.getElementById('stage');
+  const lv = [...stage.querySelectorAll('.level')];
+  const fr = lv.map(l => l.querySelector('.frame'));
+  const px = lv.map(l => l.querySelector('.px'));
+  const ro = lv.map(l => l.querySelector('.ro'));
+  const more = lv.map(l => l.querySelector('.more'));
+  const N = lv.length;
+  const mag = document.getElementById('mag'), magv = document.getElementById('magv'), hint = document.getElementById('hint');
+  const meta = document.querySelector('meta[name=theme-color]');
+  const ring = document.getElementById('ring');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const phone = matchMedia('(max-width: 560px), (max-width: 680px) and (min-height: 561px)');
+  const touch = matchMedia('(hover: none)').matches;
+  const PAPER = '#f3f3f0', INK = '#0a0a0a';
+  const ctx = document.createElement('canvas').getContext('2d');
 
-  var BG      = '#0B0D10';
-  var LINE    = '201,207,216';
-  var ACCENT  = '255,95,61';
-  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, D, ox, oy, dpr, A = [], slot = [], mo = { x: 0, y: 0 }, hintText = '';
+  let z = 0, v = 0, T = 0, raf = 0, settled = -1, touched = false, viaKey = false, roD = -1;
 
-  /* ==================================================================
-     THE ONLY INPUT IS TIME
-     Nothing here is random. Every value below is a function of a date,
-     which is why the drawing is the same for everyone and changes only
-     because the world moves on. It is one day longer tomorrow.
-     ================================================================== */
+  const q = new URLSearchParams(location.search);
+  if (q.has('z')) { z = T = Math.max(0, parseFloat(q.get('z')) || 0); touched = z > 0; }
+  else doc.classList.add('intro');
+  const still = q.has('still'); // a bare frame for the banners: no readout, the square framed dead centre
+  if (still) doc.classList.add('still');
 
-  var DAY   = 86400000;
-  var BIRTH = Date.UTC(2015, 6, 1);        // Jul 2015 — the first line of the career
-  var NOW   = Date.now();
-  var AHEAD = 3;                            // year three, drawn but not yet lived
+  // how far the ink of a line's first glyph sits right of its box
+  const bearing = (font, ch) => { ctx.font = font; return -ctx.measureText(ch).actualBoundingBoxLeft; };
+  const fontOf = el => { const c = getComputedStyle(el); return `${c.fontStyle} ${c.fontWeight} ${c.fontSize} ${c.fontFamily}`; };
+  let magFont = '';
 
-  function ym(y, m) { return Date.UTC(y, m - 1, 1); }
-
-  /* Overlaps are the interesting part: where two engagements run at once
-     their frequencies beat against each other and the rings interfere. */
-  var WORK = [
-    { at: 'Dariche Zehn',   role: 'Frontend Developer',            from: ym(2015, 7),  to: ym(2017, 9),  w: 0.55, f: 3 },
-    { at: 'Karaweb',        role: 'Full Stack Developer',          from: ym(2017, 9),  to: ym(2021, 6),  w: 0.78, f: 5 },
-    { at: 'Upwork',         role: 'Freelance · 100% success',      from: ym(2021, 1),  to: ym(2025, 6),  w: 0.62, f: 9 },
-    { at: 'QuadVentures',   role: 'Lead Web Developer',            from: ym(2022, 1),  to: ym(2023, 12), w: 0.98, f: 4 },
-    { at: 'Aligned Voyage', role: 'Co-founder',                    from: ym(2023, 12), to: ym(2025, 7),  w: 1.00, f: 6 },
-    { at: 'mvneco',         role: 'Frontend Consultant · design systems', from: ym(2025, 7), to: null, w: 1.00, f: 2 }
-  ];
-
-  var endOf = function (e) { return e.to === null ? NOW : e.to; };
-
-  // every boundary leaves a scar in the ring, the way a hard winter does
-  var SCARS = [];
-  WORK.forEach(function (e) { SCARS.push(e.from); SCARS.push(endOf(e)); });
-
-  var SPAN_MS   = (NOW - BIRTH) + AHEAD * 365.25 * DAY;
-  var LIVED_MS  = NOW - BIRTH;
-  var TOTAL_YRS = SPAN_MS / (365.25 * DAY);
-  var T_NOW     = LIVED_MS / SPAN_MS;                 // where the present sits, 0..1
-  var DAYS      = Math.round(LIVED_MS / DAY);
-
-  /* deterministic grain — a hash of the day index, never Math.random */
-  function grain(n) {
-    n = Math.imul(n ^ (n >>> 15), 0x2C1B3C6D);
-    n = Math.imul(n ^ (n >>> 12), 0x297A2D39);
-    return ((n ^ (n >>> 15)) >>> 0) / 4294967296;
-  }
-
-  function activeAt(ms) {
-    return WORK.filter(function (e) { return ms >= e.from && ms <= endOf(e); });
-  }
-
-  /* ==================================================================
-     THE LINE
-     ================================================================== */
-  var stage  = document.getElementById('stage');
-  var canvas = document.createElement('canvas');
-  var ctx    = canvas.getContext('2d');
-  stage.appendChild(canvas);
-
-  var W = 1, H = 1, DPR = 1;
-  var CX = 0, CY = 0, RAD = 1, ASPECT = 1;
-  var R0 = 0.11, R1 = 1.10;                 // inner core -> just past the frame
-  var pts = null, SEGS = 0;
-
-  function build() {
-    var n = Math.max(2600, Math.round(TOTAL_YRS * 360 * 1.7));
-    var out = new Float32Array(n * 2);
-    var gap = (R1 - R0) / TOTAL_YRS;        // one ring
-
-    for (var i = 0; i < n; i++) {
-      var t = i / (n - 1);
-      var ms = BIRTH + t * SPAN_MS;
-      var th = -Math.PI / 2 + t * TOTAL_YRS * Math.PI * 2;
-
-      // what was happening, and how loudly
-      var m = 0, live = activeAt(ms);
-      for (var k = 0; k < live.length; k++) {
-        m += live[k].w * Math.sin(th * live[k].f + live[k].from / DAY);
+  // ----- geometry: every level is a D x D square; its pixel holds the next level
+  function measure() {
+    W = innerWidth; H = innerHeight; D = Math.max(W, H);
+    ox = (W - D) / 2; oy = (H - D) / 2; dpr = devicePixelRatio || 1;
+    doc.style.setProperty('--W', W + 'px');
+    doc.style.setProperty('--H', H + 'px');
+    doc.style.setProperty('--D', D + 'px');
+    lv.forEach(l => { l.style.transform = `translate(${ox}px,${oy}px)`; });
+    const snap = n => Math.round(n * dpr) / dpr;
+    const cy = parseFloat(getComputedStyle(doc).getPropertyValue('--cy')) || 0.5;
+    A = px.map((p, i) => {
+      const head = p.closest('.head');
+      head.style.transform = p.style.transform = '';
+      head.style.marginLeft = '';
+      if (i) { // whole-pixel square, 0.13em: the size of the dot on the i
+        const fs = parseFloat(getComputedStyle(head).fontSize);
+        const s = Math.max(4, Math.round(fs * 0.13));
+        p.style.width = p.style.height = s + 'px';
       }
-      if (live.length > 1) m *= 0.72;       // two at once reads as beating, not shouting
+      const centred = i === 0 || !phone.matches;
+      // on the phone column the name starts exactly on the margin, ink not box
+      if (!centred) head.style.marginLeft = -bearing(fontOf(head), head.textContent.trim()[0]) + 'px';
+      const r = p.getBoundingClientRect(), s = r.width;
+      const x = snap(centred ? W / 2 - s / 2 : r.left), y = snap(centred ? H * cy - s / 2 : r.top);
+      // whole-pixel move for the line, sub-pixel remainder on the square, so its edges land exactly
+      const dx = x - r.left, dy = y - r.top, hx = Math.round(dx), hy = Math.round(dy);
+      head.style.transform = `translate(${hx}px,${hy}px)`;
+      p.style.transform = `translate(${dx - hx}px,${dy - hy}px)`;
+      fr[i].style.setProperty('--ax', x + 'px');
+      return { x: x - ox, y: y - oy, s, f: D / s };
+    });
+    // where the readout locks in on each page
+    slot = ro.map(r => { const b = r.getBoundingClientRect(); return { x: b.left, y: b.top }; });
+    mag.style.transform = 'none';
+    const mb = mag.getBoundingClientRect(), vb = magv.getBoundingClientRect();
+    mo = { x: vb.left - mb.left, y: vb.top - mb.top };
+    magFont = fontOf(mag);
+    // the first hint says how to go in, in words that fit beside the square
+    ctx.font = fontOf(hint);
+    const room = W - Math.min(128, Math.max(24, W * .075)) - (A[0].x + ox) - ctx.measureText('1×  ').width - 4;
+    const say = touch ? ['Tap the square'] : ['Scroll into the square', 'Click the square'];
+    hintText = say.find(t => ctx.measureText(t).width <= room) || say[say.length - 1];
+    roD = -1;
+  }
 
-      // scars at every transition
-      for (var s = 0; s < SCARS.length; s++) {
-        var d = Math.abs(ms - SCARS[s]) / DAY;
-        if (d < 30) m += 2.0 * (1 - d / 30);
-      }
+  const m6 = (s, x, y) => `matrix(${s},0,0,${s},${x},${y})`;
+  const smooth = (a, b, x) => { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); };
+  const depthMag = d => { let m = 1; for (let i = 0; i < d; i++) m *= A[i % N].f; return m; };
 
-      // wood grain, and a future that is projected rather than known
-      m += (grain(Math.round(ms / DAY)) - 0.5) * 0.55;
-      if (t > T_NOW) m *= Math.max(0, 1 - (t - T_NOW) / (1 - T_NOW) * 0.85);
-
-      var r = (R0 + (R1 - R0) * t + m * gap * 0.30) * RAD;
-      out[i * 2]     = CX + Math.cos(th) * r * ASPECT;
-      out[i * 2 + 1] = CY + Math.sin(th) * r;
+  function render(Z) {
+    const d = Math.max(0, Math.floor(Z)), t = Z - d;
+    const ci = d % N, ni = (d + 1) % N, a = A[ci], f = a.f;
+    const S = Math.pow(f, t);
+    // zoom about the one point that lands the pixel exactly on the viewport square
+    const k = f / (f - 1), qx = ox + a.x * k, qy = oy + a.y * k;
+    const tx = qx + S * (ox - qx), ty = qy + S * (oy - qy);
+    const s2 = S * a.s / D, nx = tx + S * a.x, ny = ty + S * a.y, sz = s2 * D;
+    const covered = nx <= 0 && ny <= 0 && nx + sz >= W && ny + sz >= H && t > 0;
+    const cx = still ? W / 2 - nx - sz / 2 : 0, cy = still ? H / 2 - ny - sz / 2 : 0;
+    if (d !== roD) { // each page's label line reserves room for its own depth
+      roD = d;
+      ro[ci].textContent = fmt(depthMag(d));
+      ro[ni].textContent = fmt(depthMag(d + 1));
+      // the way in is said once; when the loop comes round, the lone square only shows how deep you are
+      hint.textContent = d === 0 ? hintText : '';
     }
-
-    pts = out;
-    SEGS = n - 1;
-  }
-
-  /* One beginPath, one moveTo, N lineTo, one stroke. The colour changes
-     along the line via a radial gradient rather than by starting a new
-     path — which is the only reason "1 path / 0 lifts" stays true. */
-  var lifts = 0;
-
-  function strokeUpTo(count) {
-    var g = ctx.createRadialGradient(CX, CY, R0 * RAD, CX, CY, R1 * RAD);
-
-    // Gradient position and elapsed time are the same number here, because
-    // radius grows linearly with t. So one year is exactly 1/TOTAL_YRS wide,
-    // and the accent has to span a whole revolution — any narrower and the
-    // ring's own wobble carries it in and out of the band.
-    var yr = 1 / TOTAL_YRS, last = -1;
-    function stop(p, c) {
-      p = Math.max(0, Math.min(1, p));
-      if (p <= last) p = Math.min(1, last + 0.0005);
-      last = p;
-      g.addColorStop(p, c);
+    for (let i = 0; i < N; i++) {
+      const el = lv[i], st = el.style;
+      if (i === ci) {
+        st.transform = m6(S, tx + cx, ty + cy); st.opacity = covered ? 0 : 1; st.zIndex = 1;
+        el.classList.toggle('inv', d % 2 === 1);
+        fr[i].style.opacity = more[i].style.opacity = 1; px[i].classList.add('ghost');
+      } else if (i === ni) {
+        st.transform = m6(s2, nx + cx, ny + cy); st.opacity = 1; st.zIndex = 2;
+        el.classList.toggle('inv', (d + 1) % 2 === 1);
+        fr[i].style.opacity = smooth(0.03, 0.12, s2); px[i].classList.remove('ghost');
+        // its text waits until the page has nearly landed, so nothing passes under the readout
+        more[i].style.opacity = smooth(0.85, 1, s2);
+      } else if (st.opacity !== '0') st.opacity = 0;
     }
-
-    stop(0,                  'rgba(' + LINE + ',0.34)');   // 2015, long ago and quiet
-    stop(0.34,               'rgba(' + LINE + ',0.52)');
-    stop(T_NOW - yr,         'rgba(' + LINE + ',0.76)');
-    stop(T_NOW - yr * 0.55,  'rgba(' + ACCENT + ',0.55)'); // the current year lights up
-    stop(T_NOW - 0.004,      'rgba(' + ACCENT + ',0.95)');
-    stop(T_NOW + 0.006,      'rgba(' + LINE + ',0.34)');   // drawn, not yet lived
-    stop(1,                  'rgba(' + LINE + ',0.12)');
-
-    ctx.strokeStyle = g;
-    ctx.lineWidth = Math.max(1, DPR * 1.15);
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-
-    var moves = 0;
-    ctx.beginPath();
-    ctx.moveTo(pts[0], pts[1]); moves++;
-    for (var i = 1; i < count; i++) ctx.lineTo(pts[i * 2], pts[i * 2 + 1]);
-    ctx.stroke();
-
-    // a lift is a moveTo that isn't the initial placement of the pen
-    lifts = moves - 1;
+    stage.style.background = d % 2 ? INK : PAPER;
+    const txt = fmt(depthMag(d) * S);
+    if (magv.textContent !== txt) magv.textContent = txt;
+    // it moves only as fast as the incoming page grows, so it keeps to that page's left edge
+    const e = Math.max(0, (S - 1) / (f - 1)), p0 = slot[ci], p1 = slot[ni];
+    const mx = p0.x + (p1.x - p0.x) * e - Math.max(0, bearing(magFont, txt[0])), my = p0.y + (p1.y - p0.y) * e;
+    mag.style.transform = `translate(${Math.round((mx - mo.x) * dpr) / dpr}px,${Math.round((my - mo.y) * dpr) / dpr}px)`;
   }
 
-  /* ==================================================================
-     HOVER — the rings are the CV
-     ================================================================== */
-  var hoverT = -1;
-
-  function markNow() {
-    var i = Math.round(T_NOW * SEGS);
-    var x = pts[i * 2], y = pts[i * 2 + 1];
-    var pulse = REDUCED ? 0.6 : 0.45 + 0.25 * Math.sin(Date.now() / 620);
-    ctx.fillStyle = 'rgba(' + ACCENT + ',' + pulse.toFixed(3) + ')';
-    ctx.beginPath();
-    ctx.arc(x, y, Math.max(2.4, DPR * 2.6), 0, Math.PI * 2);
-    ctx.fill();
+  function fmt(m) {
+    if (m < 9.95) { const r = Math.round(m); return (Math.abs(m - r) < 0.02 ? r : m.toFixed(1)) + '×'; }
+    if (m >= 1e15) return m.toExponential(2).replace('e+', 'e') + '×'; // past whole-number precision
+    return Math.round(m).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + '×';
   }
 
-  function markHover() {
-    if (hoverT < 0) return;
-    var i = Math.round(hoverT * SEGS);
-    var x = pts[i * 2], y = pts[i * 2 + 1];
-    ctx.strokeStyle = 'rgba(' + LINE + ',0.55)';
-    ctx.lineWidth = Math.max(1, DPR);
-    ctx.beginPath();
-    ctx.arc(x, y, Math.max(5, DPR * 6), 0, Math.PI * 2);
-    ctx.stroke();
+  // ----- motion: log-zoom moves along a cubic Hermite path that keeps the current velocity
+  // and lands exactly on the target, so the readout stops on its true number with no tail.
+  let tw = null;
+  function go(nt, dur) {
+    T = Math.max(-0.06, nt);
+    ring.classList.remove('on');
+    if (T > 0.01) touched = true;
+    if (reduce.matches) { T = Math.round(Math.max(0, T)); z = T; v = 0; render(z); settle(); return; }
+    const dist = Math.abs(T - z);
+    // peak speed of this curve is 1.5 x dist / dur: keep it under 2.6 levels a second,
+    // so long rewinds glide instead of strobing black and white
+    dur = Math.max(dur == null ? 0.45 + 0.5 * Math.min(dist, 1) : dur, dist * 0.58);
+    tw = { z0: z, v0: v, T, dur, t0: performance.now() };
+    if (!raf) raf = requestAnimationFrame(tick);
   }
+  function tick(now) {
+    const s = Math.max(0, (now - tw.t0) / 1000 / tw.dur);
+    if (s >= 1) { z = tw.T; v = 0; render(z); raf = 0; settle(); return; }
+    const s2 = s * s, s3 = s2 * s, d = tw.dur, a = tw.z0, b = tw.v0 * d, c = tw.T;
+    z = (2 * s3 - 3 * s2 + 1) * a + (s3 - 2 * s2 + s) * b + (3 * s2 - 2 * s3) * c;
+    v = ((6 * s2 - 6 * s) * a + (3 * s2 - 4 * s + 1) * b + (6 * s - 6 * s2) * c) / d;
+    render(z); raf = requestAnimationFrame(tick);
+  }
+  function settle() {
+    const d = Math.max(0, Math.round(z)), ci = d % N;
+    if (d === settled) return;
+    settled = d;
+    lv.forEach((l, i) => { l.inert = i !== ci; });
+    meta.content = d % 2 ? INK : PAPER;
+    doc.style.background = d % 2 ? INK : PAPER;
+    mag.classList.toggle('at0', d === 0);
+    mag.setAttribute('aria-label', d === 0 ? 'Not magnified yet. Zoom in' : `Magnified ${magv.textContent.replace(/[\u2009×]/g, '')} times. Back to the start`);
+    if (viaKey) { viaKey = false; lv[ci].focus({ preventScroll: true }); }
+  }
+  const step = dir => go(Math.max(0, Math.round(T) + dir));
+  const snapT = dir => {
+    const b = Math.floor(T), fr = T - b;
+    go(Math.max(0, dir > 0 ? (fr > 0.05 ? b + 1 : b) : dir < 0 ? (fr < 0.95 ? b : b + 1) : Math.round(T)));
+  };
 
-  var capEl = document.getElementById('caption');
-  var MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-  function caption(t) {
-    if (t < 0) { capEl.innerHTML = '<span class="hint">Move across the rings.</span>'; return; }
-    var ms = BIRTH + t * SPAN_MS;
-    var d  = new Date(ms);
-    var yr = d.getUTCFullYear(), mo = MONTH[d.getUTCMonth()];
-
-    if (ms > NOW) {
-      var into = ((ms - NOW) / (365.25 * DAY));
-      capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span> &middot; ' +
-        '<span class="hint">year ' + (into < 1 ? 'one' : into < 2 ? 'two' : 'three') +
-        ' from here &mdash; drawn, not yet lived</span>';
+  // ----- wheel and trackpad (pinch arrives as ctrl+wheel: follow the fingers exactly)
+  let wt = 0, wdir = 0, racc = 0;
+  addEventListener('wheel', e => {
+    e.preventDefault();
+    const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? H : 1);
+    if (!dy) return;
+    wdir = Math.sign(dy);
+    if (reduce.matches) {
+      racc += dy; clearTimeout(wt);
+      wt = setTimeout(() => { if (Math.abs(racc) > 20) step(Math.sign(racc)); racc = 0; }, 160);
       return;
     }
+    const f = A[Math.max(0, Math.floor(z)) % N].f;
+    go(T + (e.ctrlKey ? -dy / 100 / Math.log(f) : dy / 800), e.ctrlKey ? 0.12 : 0.32);
+    clearTimeout(wt); wt = setTimeout(() => snapT(e.ctrlKey ? -wdir : wdir), 150);
+  }, { passive: false });
 
-    var live = activeAt(ms);
-    if (!live.length) { capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span>'; return; }
+  // ----- Safari trackpad pinch arrives as gesture events
+  let gT0 = 0;
+  addEventListener('gesturestart', e => { e.preventDefault(); gT0 = T; });
+  addEventListener('gesturechange', e => {
+    e.preventDefault(); if (reduce.matches) return;
+    go(gT0 + Math.log(e.scale) / Math.log(A[Math.max(0, Math.floor(z)) % N].f), 0.08);
+  });
+  addEventListener('gestureend', e => { e.preventDefault(); if (reduce.matches) { if (Math.abs(Math.log(e.scale)) > 0.2) step(e.scale > 1 ? 1 : -1); } else snapT(Math.sign(T - gT0)); });
 
-    capEl.innerHTML = '<span class="yr">' + mo + ' ' + yr + '</span> &middot; ' +
-      live.map(function (e) {
-        return '<span class="who">' + e.at + '</span> <span class="hint">' + e.role + '</span>';
-      }).join(' &nbsp;+&nbsp; ');
-  }
+  // ----- touch: drag up to zoom in, pinch to zoom with your fingers
+  const pts = new Map(); let g = null, dragged = false;
+  const pinchDist = () => { const p = [...pts.values()]; return Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y); };
+  stage.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse') return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    g = { T0: T, y0: e.clientY, d0: pts.size === 2 ? pinchDist() : 0, lt: performance.now(), lT: T, vel: 0 };
+    dragged = false;
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!pts.has(e.pointerId) || !g) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    let nt;
+    if (pts.size >= 2 && g.d0) nt = g.T0 + Math.log(pinchDist() / g.d0) / Math.log(A[Math.max(0, Math.floor(z)) % N].f);
+    else if (pts.size === 1) { const dy = g.y0 - e.clientY; if (Math.abs(dy) > 8) dragged = true; nt = g.T0 + dy / (H * 0.9); }
+    else return;
+    if (pts.size >= 2) dragged = true;
+    const now = performance.now(), dt = Math.max(1, now - g.lt);
+    g.vel = 0.7 * g.vel + 0.3 * ((nt - g.lT) / dt * 1000); g.lt = now; g.lT = nt;
+    if (!reduce.matches) go(nt, pts.size >= 2 ? 0.08 : 0.1);
+    else T = nt;
+  });
+  const up = e => {
+    if (!pts.has(e.pointerId)) return;
+    pts.delete(e.pointerId);
+    if (pts.size) { const p = [...pts.values()][0]; g = { T0: T, y0: p.y, d0: 0, lt: performance.now(), lT: T, vel: 0 }; return; }
+    if (g && dragged) {
+      if (reduce.matches) { const dz = T - g.T0; T = g.T0; if (Math.abs(dz) > 0.05) step(Math.sign(dz)); }
+      else { const proj = T + g.vel * 0.12; snapT(Math.sign(proj - Math.round(g.T0)) || 0); }
+    }
+    g = null;
+  };
+  stage.addEventListener('pointerup', up);
+  stage.addEventListener('pointercancel', up);
 
-  function onMove(e) {
-    var dx = (e.clientX * DPR - CX) / ASPECT, dy = e.clientY * DPR - CY;
-    var rn = Math.sqrt(dx * dx + dy * dy) / RAD;
-    var t  = (rn - R0) / (R1 - R0);
-    hoverT = (t < 0 || t > 1) ? -1 : t;
-    caption(hoverT);
-  }
+  // ----- click anywhere: one level deeper; click the readout: back to 1x
+  stage.addEventListener('click', e => {
+    if (dragged) { dragged = false; return; }
+    if (e.target.closest('a')) return;
+    const sel = getSelection(); if (sel && String(sel).length) return;
+    if (e.target.closest('.zi')) viaKey = true;
+    step(1);
+  });
+  mag.addEventListener('click', () => { if (Math.round(T) === 0) step(1); else go(0); });
 
-  /* ==================================================================
-     FRAME
-     ================================================================== */
-  var progress = 0, start = 0;
+  addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key, ae = document.activeElement, ctl = ae && (ae.tagName === 'A' || ae.tagName === 'BUTTON');
+    let act = 0;
+    if (k === 'ArrowDown' || k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey && !ctl) || (k === 'Enter' && !ctl)) act = 1;
+    else if (k === 'ArrowUp' || k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace' || (k === ' ' && e.shiftKey && !ctl)) act = -1;
+    else if (k === 'Escape' || k === 'Home') { e.preventDefault(); viaKey = true; go(0); return; }
+    else if (k === 'End') { e.preventDefault(); viaKey = true; go(Math.floor(Math.round(T) / N) * N + N - 1); return; }
+    if (act) { e.preventDefault(); viaKey = true; step(act); }
+  });
 
-  function frame(ts) {
-    if (!start) start = ts;
-    progress = REDUCED ? 1 : Math.min(1, (ts - start) / 7200);
-    var e = 1 - Math.pow(1 - progress, 2.4);          // ease out
+  // keyboard focus on a pixel: a viewfinder drawn around it, whole-pixel exact
+  document.addEventListener('focusin', e => {
+    const i = e.target.matches('.zi, .px') ? lv.findIndex(l => l.contains(e.target)) : -1;
+    if (i < 0 || !e.target.matches(':focus-visible') || z !== T) { ring.classList.remove('on'); return; }
+    const a = A[i], g = i ? 5 : 7;
+    ring.style.transform = `translate(${a.x + ox - g}px,${a.y + oy - g}px)`;
+    ring.style.width = ring.style.height = a.s + 2 * g + 'px';
+    ring.classList.add('on');
+  });
+  document.addEventListener('focusout', () => ring.classList.remove('on'));
 
-    ctx.fillStyle = BG;
-    ctx.fillRect(0, 0, W, H);
+  let rz = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { measure(); render(z); }); });
 
-    var count = Math.max(2, Math.round(e * SEGS));
-    strokeUpTo(count);
-    if (progress >= 1) { markNow(); markHover(); }
-
-    sSegs.textContent = fmt.format(count - 1);
-    sLifts.textContent = String(lifts);
-
-    requestAnimationFrame(frame);
-  }
-
-  /* ==================================================================
-     SIZE + BOOT
-     ================================================================== */
-  var fmt    = new Intl.NumberFormat('en-US');
-  var sSegs  = document.getElementById('s-segs');
-  var sLifts = document.getElementById('s-lifts');
-
-  function measure() {
-    DPR = Math.min(2, window.devicePixelRatio || 1);
-    W = Math.max(1, Math.round(window.innerWidth  * DPR));
-    H = Math.max(1, Math.round(window.innerHeight * DPR));
-    canvas.width = W; canvas.height = H;
-    CX = W / 2; CY = H * 0.47;
-    RAD = H / 2;
-    ASPECT = Math.max(1, W / H);
-    build();
-  }
-
-  measure();
-  document.getElementById('s-days').textContent = fmt.format(DAYS);
-  document.getElementById('span-lbl').textContent =
-    'One revolution per year · ' + new Date(BIRTH).getUTCFullYear() +
-    ' → ' + new Date(BIRTH + SPAN_MS).getUTCFullYear();
-
-  window.addEventListener('resize', function () { measure(); });
-  window.addEventListener('pointermove', onMove, { passive: true });
-  window.addEventListener('pointerleave', function () { hoverT = -1; caption(-1); });
-
-  requestAnimationFrame(frame);
+  measure(); render(z); settle();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); render(z); });
+  if (doc.classList.contains('intro')) setTimeout(() => doc.classList.remove('intro'), 1600);
 })();
 </script>
 </body>
